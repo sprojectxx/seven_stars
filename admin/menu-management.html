@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Management | Seven Star Admin</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="admin-body">
+
+  <!-- ADMIN SIDEBAR -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="admin-sidebar-brand">
+      <div class="brand-logo-icon">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Seven Star</span>
+        <span class="brand-portal-label">Admin Portal</span>
+      </div>
+    </div>
+
+    <nav class="admin-nav">
+      <a href="dashboard.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="orders.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        <span>Order Management</span>
+      </a>
+      <a href="menu-management.html" class="active">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+        <span>Menu Management</span>
+      </a>
+      <a href="customers.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <span>Customer Directory</span>
+      </a>
+      <a href="staff.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        <span>Staff Accounts</span>
+      </a>
+      <a href="reports.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+        <span>Sales & Reports</span>
+      </a>
+      <a href="settings.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+        <span>Settings & Reset</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <button class="admin-mobile-toggle" onclick="document.getElementById('admin-sidebar').classList.toggle('active')">☰</button>
+        <h1 class="admin-topbar-title">Menu Management</h1>
+      </div>
+      <div class="admin-topbar-right">
+        <button class="btn btn-primary btn-sm" onclick="openAddDishModal()">
+          + Add New Food Item
+        </button>
+        <a href="../menu.html" class="view-site-link" target="_blank">View Live Menu</a>
+      </div>
+    </header>
+
+    <main class="admin-content-area">
+      <!-- Search & Filters -->
+      <div class="admin-card">
+        <div class="admin-filter-bar">
+          <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+            <div class="search-input-wrap" style="width:260px;">
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+              <input type="text" id="menu-mgmt-search" placeholder="Search menu dishes...">
+            </div>
+
+            <select id="menu-mgmt-cat-filter" class="sort-select">
+              <option value="all">All Categories</option>
+              <option value="starters">Starters</option>
+              <option value="soups">Soups</option>
+              <option value="indian-main-course">Indian Main Course</option>
+              <option value="biryani">Biryani</option>
+              <option value="chinese">Chinese</option>
+              <option value="tandoori">Tandoori</option>
+              <option value="beverages">Beverages</option>
+              <option value="desserts">Desserts</option>
+            </select>
+          </div>
+
+          <div id="dish-count-stat" style="font-size:0.875rem; color:var(--color-text-muted);">
+            Showing items
+          </div>
+        </div>
+
+        <!-- Menu Table -->
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Dish Info</th>
+                <th>Category</th>
+                <th>Dietary</th>
+                <th>Price (€)</th>
+                <th>Badge</th>
+                <th>In Stock Toggle</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="menu-mgmt-tbody">
+              <!-- Dynamically Populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ADD / EDIT DISH MODAL -->
+  <div class="modal-overlay" id="dish-modal">
+    <div class="modal-container" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 id="dish-modal-title">Add New Food Item</h3>
+        <button class="modal-close-btn" onclick="closeDishModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="dish-form" onsubmit="handleDishFormSubmit(event)">
+          <input type="hidden" id="dish-edit-id" value="">
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="form-dish-name">Dish Name *</label>
+              <input type="text" id="form-dish-name" placeholder="e.g. Chicken Tikka Masala" required>
+            </div>
+
+            <div class="form-group">
+              <label for="form-dish-category">Category *</label>
+              <select id="form-dish-category" required>
+                <option value="set-meals">Set Meals</option>
+                <option value="biryani">Biryani Dishes</option>
+                <option value="curries" selected>Traditional Curries</option>
+                <option value="kebab-rolls">Kebab Rolls</option>
+                <option value="vegetable-dishes">Vegetable Dishes</option>
+                <option value="rice">Rice</option>
+                <option value="bread">Bread</option>
+                <option value="english-dishes">English Dishes</option>
+                <option value="starters">Sundries & Starters</option>
+                <option value="desserts">Desserts & Drinks</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="form-dish-price">Base Price (€) *</label>
+              <input type="number" id="form-dish-price" placeholder="e.g. 9.95" step="0.01" min="0.10" required>
+            </div>
+
+            <div class="form-group">
+              <label for="form-dish-diet">Dietary Type *</label>
+              <select id="form-dish-diet">
+                <option value="veg">🟢 Vegetarian</option>
+                <option value="non-veg">🔴 Non-Vegetarian</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="form-dish-desc">Culinary Description *</label>
+            <textarea id="form-dish-desc" rows="3" placeholder="Describe royal ingredients, cooking technique, and accompaniments..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="form-dish-img">Image URL</label>
+            <input type="url" id="form-dish-img" placeholder="https://images.unsplash.com/...">
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="form-dish-badge">Badge (Optional)</label>
+              <select id="form-dish-badge">
+                <option value="">None</option>
+                <option value="Bestseller">Bestseller</option>
+                <option value="Chef's Special">Chef's Special</option>
+                <option value="Recommended">Recommended</option>
+                <option value="Popular">Popular</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="form-dish-spice">Spice Level</label>
+              <select id="form-dish-spice">
+                <option value="Mild">Mild</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Hot">Hot</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+            <button type="button" class="btn btn-outline" onclick="closeDishModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="btn-save-dish">Save Dish</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/menu.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/orders.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+
+  <script>
+    const filterState = {
+      category: "all",
+      query: ""
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      AdminApp.init();
+      renderMenuTable();
+
+      const searchInput = document.getElementById("menu-mgmt-search");
+      if (searchInput) {
+        let timer = null;
+        searchInput.addEventListener("input", (e) => {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            filterState.query = e.target.value;
+            renderMenuTable();
+          }, 200);
+        });
+      }
+
+      const catFilter = document.getElementById("menu-mgmt-cat-filter");
+      if (catFilter) {
+        catFilter.addEventListener("change", (e) => {
+          filterState.category = e.target.value;
+          renderMenuTable();
+        });
+      }
+
+      window.addEventListener("sevenstar:menu_updated", () => {
+        renderMenuTable();
+      });
+    });
+
+    function renderMenuTable() {
+      const items = MenuService.getItems(filterState);
+      const tbody = document.getElementById("menu-mgmt-tbody");
+      const stat = document.getElementById("dish-count-stat");
+      if (!tbody) return;
+
+      if (stat) stat.textContent = `Showing ${items.length} dishes in catalogue`;
+
+      if (items.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px;">No menu items found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = items.map(item => `
+        <tr>
+          <td>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <img src="${item.image}" alt="${item.name}" style="width:48px; height:48px; object-fit:cover; border-radius:4px; border:1px solid #ddd;">
+              <div>
+                <strong>${item.name}</strong>
+                <div style="font-size:0.75rem; color:var(--color-text-muted); max-width:240px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                  ${item.description}
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span style="font-size:0.8125rem; font-weight:600; text-transform:capitalize;">
+              ${item.category.replace(/-/g, ' ')}
+            </span>
+          </td>
+          <td>
+            ${SevenStar.getDietaryBadge(item.isVeg)}
+          </td>
+          <td>
+            <strong style="font-family:var(--font-serif);">${SevenStar.formatINR(item.price)}</strong>
+          </td>
+          <td>
+            ${item.badge ? `<span class="dish-badge-pill" style="position:static; display:inline-block;">${item.badge}</span>` : '—'}
+          </td>
+          <td>
+            <label class="switch" title="Toggle stock availability">
+              <input type="checkbox" ${item.isAvailable !== false ? 'checked' : ''} onchange="toggleItemStock('${item.id}', this.checked)">
+              <span class="slider"></span>
+            </label>
+          </td>
+          <td>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-outline btn-sm" onclick="openEditDishModal('${item.id}')" title="Edit">Edit</button>
+              <button class="btn btn-outline btn-sm" onclick="confirmDeleteDish('${item.id}', '${item.name}')" style="color:var(--color-primary-red);" title="Delete">Delete</button>
+            </div>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function toggleItemStock(id, isAvailable) {
+      MenuService.toggleAvailability(id);
+      SevenStar.showToast(`Item availability updated to: <strong>${isAvailable ? 'In Stock' : 'Sold Out'}</strong>`, "info");
+    }
+
+    function openAddDishModal() {
+      document.getElementById("dish-modal-title").textContent = "Add New Culinary Item";
+      document.getElementById("dish-edit-id").value = "";
+      document.getElementById("dish-form").reset();
+      document.getElementById("dish-modal").classList.add("active");
+    }
+
+    function openEditDishModal(id) {
+      const item = MenuService.getItemById(id);
+      if (!item) return;
+
+      document.getElementById("dish-modal-title").textContent = "Edit Food Item";
+      document.getElementById("dish-edit-id").value = item.id;
+      document.getElementById("form-dish-name").value = item.name;
+      document.getElementById("form-dish-category").value = item.category;
+      document.getElementById("form-dish-price").value = item.price;
+      document.getElementById("form-dish-diet").value = item.isVeg ? "veg" : "non-veg";
+      document.getElementById("form-dish-desc").value = item.description;
+      document.getElementById("form-dish-img").value = item.image;
+      document.getElementById("form-dish-badge").value = item.badge || "";
+      document.getElementById("form-dish-spice").value = item.spiceLevel || "Medium";
+
+      document.getElementById("dish-modal").classList.add("active");
+    }
+
+    function closeDishModal() {
+      document.getElementById("dish-modal").classList.remove("active");
+    }
+
+    function handleDishFormSubmit(e) {
+      e.preventDefault();
+      const editId = document.getElementById("dish-edit-id").value;
+      const name = document.getElementById("form-dish-name").value.trim();
+      const category = document.getElementById("form-dish-category").value;
+      const price = Number(document.getElementById("form-dish-price").value);
+      const isVeg = document.getElementById("form-dish-diet").value === "veg";
+      const description = document.getElementById("form-dish-desc").value.trim();
+      const image = document.getElementById("form-dish-img").value.trim() || "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80";
+      const badge = document.getElementById("form-dish-badge").value || null;
+      const spiceLevel = document.getElementById("form-dish-spice").value;
+
+      const payload = { name, category, price, isVeg, description, image, badge, spiceLevel };
+
+      if (editId) {
+        MenuService.updateItem(editId, payload);
+        SevenStar.showToast(`Updated <strong>${name}</strong> successfully!`, "success");
+      } else {
+        MenuService.addItem(payload);
+        SevenStar.showToast(`Added <strong>${name}</strong> to the restaurant menu!`, "success");
+      }
+
+      closeDishModal();
+      renderMenuTable();
+    }
+
+    function confirmDeleteDish(id, name) {
+      if (confirm(`Are you sure you want to delete "${name}" from the menu?`)) {
+        MenuService.deleteItem(id);
+        SevenStar.showToast(`Deleted "${name}"`, "info");
+        renderMenuTable();
+      }
+    }
+  </script>
+</body>
+</html>
+

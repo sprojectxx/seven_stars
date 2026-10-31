@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout & Place Order | Seven Star Restaurant</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/print.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-info">
+        <span class="top-info-item">Jubilee Hills, Hyderabad</span>
+        <span class="top-info-item">+91 98765 43210</span>
+      </div>
+      <div class="top-bar-links">
+        <a href="admin/index.html" class="top-link highlight">Admin Portal &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="site-logo">
+        <div class="logo-symbol">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <div class="logo-text-wrap">
+          <span class="logo-title">Seven Star</span>
+          <span class="logo-sub" style="color:var(--color-primary-red); font-weight:700;">Take Away Kitchen</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html#takeaway-menu" class="nav-link">Menu & Order</a>
+        <a href="contact.html" class="nav-link">Pickup Location</a>
+        <a href="admin/index.html" class="nav-link" style="color:var(--color-muted-blue);">Admin Portal</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="cart.html" class="btn btn-outline btn-sm">&larr; Back to Cart</a>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-nav-overlay"></div>
+
+  <!-- Checkout Section -->
+  <main class="checkout-page-section">
+    <div class="container">
+      <div class="section-header text-left" style="margin-bottom: 28px;">
+        <span class="section-tagline">Final Step</span>
+        <h1 class="section-title">Checkout & Confirm Order</h1>
+      </div>
+
+      <div class="checkout-grid" id="checkout-view-grid">
+        <!-- Left: Form Steps -->
+        <div>
+          <!-- Step 1: Order Type Selector -->
+          <div class="checkout-card">
+            <h2 class="checkout-card-title">
+              <span class="checkout-step-number">1</span>
+              Select Order Type
+            </h2>
+
+            <div class="order-type-switch-grid">
+              <div class="order-type-option selected" id="type-opt-pickup" onclick="setOrderType('pickup')">
+                <div class="type-option-icon">
+                  <svg viewBox="0 0 24 24" style="width:24px; height:24px;"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+                </div>
+                <div class="type-option-info">
+                  <h4>Take Away (Counter Pickup)</h4>
+                  <p>Collect hot & fresh directly from our Jubilee Hills kitchen counter (15-20 mins)</p>
+                </div>
+              </div>
+
+              <div class="order-type-option" id="type-opt-delivery" onclick="setOrderType('delivery')">
+                <div class="type-option-icon">
+                  <svg viewBox="0 0 24 24" style="width:24px; height:24px;"><path fill="currentColor" d="M19 7c0-1.1-.9-2-2-2h-3v2h3v2.65L13.52 14H10V9H4c-1.1 0-2 .9-2 2v6h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-5-5zm-12 11c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm11 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+                </div>
+                <div class="type-option-info">
+                  <h4>Takeaway Doorstep Delivery</h4>
+                  <p>Insulated thermal packaging dispatched to your door</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Customer Contact & Delivery Details -->
+          <div class="checkout-card">
+            <h2 class="checkout-card-title">
+              <span class="checkout-step-number">2</span>
+              Contact & Pickup Details
+            </h2>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="cust-name">Full Name <span style="color:var(--color-primary-red)">*</span></label>
+                <input type="text" id="cust-name" placeholder="e.g. Vikramaditya Roy" required>
+              </div>
+
+              <div class="form-group">
+                <label for="cust-phone">Mobile Phone (10 digits) <span style="color:var(--color-primary-red)">*</span></label>
+                <input type="tel" id="cust-phone" placeholder="e.g. 9876543210" maxlength="10" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="cust-email">Email Address (Optional receipt copy)</label>
+              <input type="email" id="cust-email" placeholder="e.g. vikram@example.com">
+            </div>
+
+            <div id="delivery-address-container" style="display:none;">
+              <div class="form-group">
+                <label for="cust-address">Complete Delivery Address <span style="color:var(--color-primary-red)">*</span></label>
+                <textarea id="cust-address" placeholder="Flat / Villa number, Apartment / Society name, Street / Road, Landmark" rows="3"></textarea>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="cust-landmark">Landmark / Area</label>
+                  <input type="text" id="cust-landmark" placeholder="e.g. Near Metro Pillar 14">
+                </div>
+                <div class="form-group">
+                  <label for="cust-pincode">Pincode</label>
+                  <input type="text" id="cust-pincode" placeholder="e.g. 500033" value="500033">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+              <label for="cust-notes">Delivery & Kitchen Instructions (Optional)</label>
+              <input type="text" id="cust-notes" placeholder="e.g. Please ring doorbell twice, keep spicy">
+            </div>
+          </div>
+
+          <!-- Step 3: Payment Method Selection -->
+          <div class="checkout-card">
+            <h2 class="checkout-card-title">
+              <span class="checkout-step-number">3</span>
+              Payment Method
+            </h2>
+
+            <div class="payment-methods-grid">
+              <!-- Cash Payment Option -->
+              <div class="payment-method-card selected" id="pay-opt-cod" onclick="setPaymentMethod('cod')">
+                <div class="payment-method-header">
+                  <h4>Cash Payment</h4>
+                  <span class="simulated-pill">Standard</span>
+                </div>
+                <p id="cod-label-text">Pay in cash or UPI at the time of delivery.</p>
+              </div>
+
+              <!-- Online Payment Option (Simulated) -->
+              <div class="payment-method-card" id="pay-opt-online" onclick="setPaymentMethod('online')">
+                <div class="payment-method-header">
+                  <h4>Online Payment</h4>
+                  <span class="simulated-pill" style="background-color: var(--color-light-blue); color: var(--color-muted-blue-dark);">Demo Simulation</span>
+                </div>
+                <p>Simulate instant payment via UPI, Debit/Credit Card, or NetBanking.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Order Review & Confirmation Box -->
+        <div>
+          <div class="checkout-card" id="checkout-summary-card">
+            <!-- Dynamically populated with order breakdown -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SIMULATED PAYMENT MODAL -->
+  <div class="modal-overlay" id="payment-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>
+          <svg viewBox="0 0 24 24" style="width:20px; height:20px;"><path fill="currentColor" d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+          Seven Star Secure Demo Payment
+        </h3>
+        <button class="modal-close-btn" onclick="closePaymentModal()">&times;</button>
+      </div>
+
+      <div class="modal-body" id="payment-modal-content">
+        <div class="payment-tab-row">
+          <button class="payment-tab-btn active" onclick="switchPaymentTab('upi', this)">UPI / QR</button>
+          <button class="payment-tab-btn" onclick="switchPaymentTab('card', this)">Debit / Credit Card</button>
+          <button class="payment-tab-btn" onclick="switchPaymentTab('netbanking', this)">Net Banking</button>
+        </div>
+
+        <!-- Tab 1: UPI -->
+        <div id="tab-content-upi">
+          <div style="background-color: var(--color-light-blue-subtle); border: 1px dashed var(--color-muted-blue); border-radius: var(--radius-sm); padding: 16px; text-align: center; margin-bottom: 16px;">
+            <div style="font-weight: 700; color: var(--color-muted-blue-dark); margin-bottom: 4px;">Simulated UPI QR Code</div>
+            <div style="display:inline-block; padding: 12px; background:#fff; border:1px solid #ddd; margin: 8px 0; border-radius: 4px;">
+              <svg viewBox="0 0 100 100" style="width: 120px; height: 120px;">
+                <!-- Clean mock QR code pattern -->
+                <rect width="100" height="100" fill="#fff"/>
+                <rect x="10" y="10" width="25" height="25" fill="#333"/>
+                <rect x="14" y="14" width="17" height="17" fill="#fff"/>
+                <rect x="18" y="18" width="9" height="9" fill="#333"/>
+                <rect x="65" y="10" width="25" height="25" fill="#333"/>
+                <rect x="69" y="14" width="17" height="17" fill="#fff"/>
+                <rect x="73" y="18" width="9" height="9" fill="#333"/>
+                <rect x="10" y="65" width="25" height="25" fill="#333"/>
+                <rect x="14" y="69" width="17" height="17" fill="#fff"/>
+                <rect x="18" y="73" width="9" height="9" fill="#333"/>
+                <rect x="45" y="20" width="8" height="20" fill="#333"/>
+                <rect x="50" y="55" width="18" height="8" fill="#333"/>
+                <rect x="75" y="65" width="15" height="15" fill="#333"/>
+                <circle cx="50" cy="50" r="6" fill="#A52422"/>
+              </svg>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--color-text-muted);">
+              Supports PhonePe • Google Pay • Paytm • BHIM UPI
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="demo-upi-id">Or Enter UPI ID</label>
+            <input type="text" id="demo-upi-id" value="customer@okhdfcbank" style="font-size: 0.875rem;">
+          </div>
+        </div>
+
+        <!-- Tab 2: Card (Hidden by default) -->
+        <div id="tab-content-card" style="display:none;">
+          <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" value="4532 •••• •••• 8842" readonly style="background:#fff;">
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Expiry Date</label>
+              <input type="text" value="08 / 29" readonly style="background:#fff;">
+            </div>
+            <div class="form-group">
+              <label>CVV</label>
+              <input type="password" value="888" readonly style="background:#fff;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Net Banking (Hidden by default) -->
+        <div id="tab-content-netbanking" style="display:none;">
+          <div class="form-group">
+            <label>Choose Bank</label>
+            <select style="background:#fff;">
+              <option>HDFC Bank</option>
+              <option>State Bank of India</option>
+              <option>ICICI Bank</option>
+              <option>Axis Bank</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Pay Button -->
+        <button class="btn btn-primary btn-lg btn-block" onclick="executeSimulatedPayment()" id="btn-confirm-payment">
+          Simulate Payment of <span id="modal-pay-amount">€0.00</span>
+        </button>
+
+        <div class="payment-security-notice">
+          <svg viewBox="0 0 24 24" style="width:14px; height:14px; color: var(--color-olive-green);"><path fill="currentColor" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          Prototype Sandbox: No real card or funds charged.
+        </div>
+      </div>
+
+      <!-- Processing state -->
+      <div class="payment-processing-state" id="payment-processing-screen">
+        <div class="payment-spinner"></div>
+        <h3 style="font-size: 1.25rem; margin-bottom: 6px;">Processing Demo Payment...</h3>
+        <p style="color: var(--color-text-muted); font-size: 0.875rem;">Connecting with simulated banking gateway</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 Seven Star Restaurant Demo. All rights reserved.</div>
+        <div><a href="admin/index.html" style="color: var(--color-light-blue);">Admin Management &rarr;</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    let checkoutState = {
+      orderType: "pickup", // 'pickup' (default for take away) | 'delivery'
+      paymentMethod: "cod"   // 'cod' | 'online'
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const cart = CartService.getCart();
+      if (cart.items.length === 0) {
+        window.location.href = "cart.html";
+        return;
+      }
+
+      renderSummaryCard();
+    });
+
+    function setOrderType(type) {
+      checkoutState.orderType = type;
+      document.getElementById("type-opt-delivery").classList.toggle("selected", type === "delivery");
+      document.getElementById("type-opt-pickup").classList.toggle("selected", type === "pickup");
+
+      const addrSection = document.getElementById("delivery-address-container");
+      const codLabel = document.getElementById("cod-label-text");
+
+      if (type === "pickup") {
+        addrSection.style.display = "none";
+        codLabel.textContent = "Pay in cash or UPI directly at our restaurant counter upon pickup.";
+      } else {
+        addrSection.style.display = "block";
+        codLabel.textContent = "Pay in cash or UPI at the time of delivery.";
+      }
+
+      renderSummaryCard();
+    }
+
+    function setPaymentMethod(method) {
+      checkoutState.paymentMethod = method;
+      document.getElementById("pay-opt-cod").classList.toggle("selected", method === "cod");
+      document.getElementById("pay-opt-online").classList.toggle("selected", method === "online");
+    }
+
+    function renderSummaryCard() {
+      const card = document.getElementById("checkout-summary-card");
+      const cart = CartService.getCart();
+      const totals = CartService.getCartTotals(checkoutState.orderType);
+
+      card.innerHTML = `
+        <h2 style="font-size: 1.25rem; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
+          Order Summary (${totals.itemCount} items)
+        </h2>
+
+        <div style="max-height: 240px; overflow-y: auto; margin-bottom: 16px; padding-right: 4px;">
+          ${cart.items.map(i => `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 8px 0; border-bottom: 1px solid var(--color-border-light); font-size: 0.84375rem;">
+              <div>
+                <strong style="color:var(--color-dark);">${i.quantity}x</strong> ${i.name}
+                <div style="font-size: 0.72rem; color: var(--color-warm-brown);">${i.variant}</div>
+              </div>
+              <span style="font-family: var(--font-serif); font-weight:700;">${SevenStar.formatINR(i.itemTotal)}</span>
+            </div>
+          `).join("")}
+        </div>
+
+        <div class="summary-rows-wrap" style="margin: 0 0 20px;">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>${SevenStar.formatINR(totals.subtotal)}</span>
+          </div>
+
+          ${totals.discount > 0 ? `
+            <div class="summary-row discount-row">
+              <span>Coupon (${totals.coupon.code})</span>
+              <span>-${SevenStar.formatINR(totals.discount)}</span>
+            </div>
+          ` : ''}
+
+          <div class="summary-row">
+            <span>Packaging Charge</span>
+            <span>${SevenStar.formatINR(totals.packagingCharge)}</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Delivery Fee</span>
+            <span>${totals.deliveryFee === 0 ? '<strong style="color: var(--color-olive-green);">FREE</strong>' : SevenStar.formatINR(totals.deliveryFee)}</span>
+          </div>
+
+          <div class="summary-row">
+            <span>GST Taxes (5%)</span>
+            <span>${SevenStar.formatINR(totals.gst)}</span>
+          </div>
+
+          <div class="summary-row grand-total-row">
+            <span>Total Payable</span>
+            <span class="total-val">${SevenStar.formatINR(totals.grandTotal)}</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg btn-block" onclick="handlePlaceOrderClick()">
+          Place Order &bull; ${SevenStar.formatINR(totals.grandTotal)}
+        </button>
+
+        <p style="font-size: 0.75rem; color: var(--color-text-muted); text-align: center; margin-top: 12px;">
+          By placing an order, you agree to Seven Star fine dining service terms.
+        </p>
+      `;
+
+      // Update modal amount
+      const modalPayAmt = document.getElementById("modal-pay-amount");
+      if (modalPayAmt) {
+        modalPayAmt.textContent = SevenStar.formatINR(totals.grandTotal);
+      }
+    }
+
+    function validateCheckoutForm() {
+      const name = (document.getElementById("cust-name")?.value || "").trim();
+      const phone = (document.getElementById("cust-phone")?.value || "").trim();
+
+      if (!name) {
+        SevenStar.showToast("Please enter your full name.", "error");
+        document.getElementById("cust-name").focus();
+        return false;
+      }
+
+      const phoneClean = phone.replace(/\D/g, "");
+      if (phoneClean.length !== 10) {
+        SevenStar.showToast("Please enter a valid 10-digit Indian mobile number.", "error");
+        document.getElementById("cust-phone").focus();
+        return false;
+      }
+
+      if (checkoutState.orderType === "delivery") {
+        const address = (document.getElementById("cust-address")?.value || "").trim();
+        if (!address || address.length < 6) {
+          SevenStar.showToast("Please enter a complete delivery address.", "error");
+          document.getElementById("cust-address").focus();
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    function handlePlaceOrderClick() {
+      if (!validateCheckoutForm()) return;
+
+      if (checkoutState.paymentMethod === "online") {
+        // Launch Simulated Online Payment Modal
+        document.getElementById("payment-modal").classList.add("active");
+      } else {
+        // Proceed with Cash on Delivery / Pickup
+        completeOrderCreation("cod");
+      }
+    }
+
+    function closePaymentModal() {
+      document.getElementById("payment-modal").classList.remove("active");
+    }
+
+    function switchPaymentTab(tabName, btn) {
+      document.querySelectorAll(".payment-tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      document.getElementById("tab-content-upi").style.display = tabName === "upi" ? "block" : "none";
+      document.getElementById("tab-content-card").style.display = tabName === "card" ? "block" : "none";
+      document.getElementById("tab-content-netbanking").style.display = tabName === "netbanking" ? "block" : "none";
+    }
+
+    function executeSimulatedPayment() {
+      // Show spinner state
+      document.getElementById("payment-modal-content").style.display = "none";
+      document.getElementById("payment-processing-screen").style.display = "block";
+
+      setTimeout(() => {
+        completeOrderCreation("online");
+      }, 2400);
+    }
+
+    function completeOrderCreation(paymentMethod) {
+      const name = document.getElementById("cust-name").value.trim();
+      const phone = document.getElementById("cust-phone").value.trim();
+      const email = document.getElementById("cust-email").value.trim();
+      const notes = document.getElementById("cust-notes").value.trim();
+
+      let address = "Seven Star Dine-in / Pickup Counter, Road No. 36, Jubilee Hills";
+      if (checkoutState.orderType === "delivery") {
+        const street = document.getElementById("cust-address").value.trim();
+        const landmark = document.getElementById("cust-landmark").value.trim();
+        const pincode = document.getElementById("cust-pincode").value.trim();
+        address = `${street}${landmark ? ', Near ' + landmark : ''}, Hyderabad - ${pincode}`;
+      }
+
+      const cart = CartService.getCart();
+      const totals = CartService.getCartTotals(checkoutState.orderType);
+
+      const payload = {
+        customer: { name, phone, email, address, notes },
+        orderType: checkoutState.orderType,
+        payment: {
+          method: paymentMethod,
+          gateway: paymentMethod === "online" ? "Simulated Online UPI / Card Gateway" : "Cash on Delivery / Pickup"
+        },
+        items: cart.items,
+        pricing: totals
+      };
+
+      const res = OrderService.createOrder(payload);
+      if (res.success) {
+        window.location.href = `order-confirmation.html?id=${res.order.id}`;
+      } else {
+        SevenStar.showToast("Failed to place order. Please try again.", "error");
+      }
+    }
+  </script>
+</body>
+</html>
+

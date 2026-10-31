@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Shopping Cart | Seven Star Restaurant</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/print.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-info">
+        <span class="top-info-item">Jubilee Hills, Hyderabad</span>
+        <span class="top-info-item">+91 98765 43210</span>
+      </div>
+      <div class="top-bar-links">
+        <a href="admin/index.html" class="top-link highlight">Admin Portal &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="site-logo">
+        <div class="logo-symbol">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <div class="logo-text-wrap">
+          <span class="logo-title">Seven Star</span>
+          <span class="logo-sub" style="color:var(--color-primary-red); font-weight:700;">Take Away Kitchen</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html#takeaway-menu" class="nav-link">Menu & Order</a>
+        <a href="contact.html" class="nav-link">Pickup Location</a>
+        <a href="admin/index.html" class="nav-link" style="color:var(--color-muted-blue);">Admin Portal</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="index.html#takeaway-menu" class="btn btn-outline btn-sm">Add More Items</a>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-nav-overlay"></div>
+
+  <!-- Cart Section -->
+  <main class="cart-page-section">
+    <div class="container">
+      <div class="section-header text-left" style="margin-bottom: 30px;">
+        <span class="section-tagline">Review Selection</span>
+        <h1 class="section-title">Your Dining Cart</h1>
+      </div>
+
+      <div id="cart-content-target">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 Seven Star Restaurant Demo. All rights reserved.</div>
+        <div><a href="admin/index.html" style="color: var(--color-light-blue);">Admin Management &rarr;</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCartPage();
+
+      window.addEventListener("sevenstar:cart_updated", () => {
+        renderCartPage();
+      });
+    });
+
+    function renderCartPage() {
+      const container = document.getElementById("cart-content-target");
+      if (!container) return;
+
+      const cart = CartService.getCart();
+      const totals = CartService.getCartTotals("delivery");
+
+      if (cart.items.length === 0) {
+        container.innerHTML = `
+          <div class="empty-results-box" style="padding: 90px 20px;">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M17.21 9l-4.38-6.56a.993.993 0 0 0-.83-.42c-.32 0-.64.14-.83.43L6.79 9H2c-.55 0-1 .45-1 1 0 .09.01.18.04.27l2.54 9.27c.23.84 1 1.46 1.92 1.46h13c.92 0 1.69-.62 1.93-1.46l2.54-9.27L23 10c0-.55-.45-1-1-1h-4.79zM9 9l3-4.4L15 9H9zm3 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+            <h2 style="font-size: 1.625rem; margin-bottom: 8px;">Your cart is completely empty</h2>
+            <p style="color: var(--color-text-muted); font-size: 1rem; margin-bottom: 24px; max-width: 440px; margin-left:auto; margin-right:auto;">
+              Explore our chef's specialties, biryanis, and royal curries to craft your feast.
+            </p>
+            <a href="menu.html" class="btn btn-primary btn-lg">Browse Complete Menu &rarr;</a>
+          </div>
+        `;
+        return;
+      }
+
+      // Calculate free delivery progress
+      const freeThreshold = totals.freeDeliveryThreshold;
+      const subtotal = totals.subtotal;
+      const progressPercent = Math.min(100, Math.round((subtotal / freeThreshold) * 100));
+      const remainingForFree = Math.max(0, freeThreshold - subtotal);
+
+      container.innerHTML = `
+        <div class="cart-layout-grid">
+          <!-- Left Column: Items List -->
+          <div class="cart-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
+              <h2 style="font-size: 1.25rem;">Items in Your Order (${totals.itemCount})</h2>
+              <button class="btn btn-outline btn-sm" onclick="CartService.clearCart()" style="color: var(--color-primary-red); border-color: transparent;">Clear All</button>
+            </div>
+
+            <div class="cart-items-list">
+              ${cart.items.map(item => `
+                <div class="cart-item-row">
+                  <img src="${item.image}" alt="${item.name}" class="cart-item-thumb">
+                  
+                  <div class="cart-item-info">
+                    <h4>${item.name}</h4>
+                    <span class="cart-item-variant">${item.variant}</span>
+                    <span class="cart-item-unit-price">${SevenStar.formatINR(item.price)} each</span>
+                    ${item.notes ? `<p style="font-size: 0.75rem; color: var(--color-text-muted); font-style: italic; margin-top: 2px;">Note: "${item.notes}"</p>` : ''}
+                  </div>
+
+                  <div class="quantity-stepper cart-item-stepper-cell">
+                    <button class="stepper-btn" onclick="CartService.updateQuantity('${item.cartItemId}', -1)" aria-label="Decrease">&minus;</button>
+                    <span class="stepper-val">${item.quantity}</span>
+                    <button class="stepper-btn" onclick="CartService.updateQuantity('${item.cartItemId}', 1)" aria-label="Increase">&plus;</button>
+                  </div>
+
+                  <div class="cart-item-total">
+                    ${SevenStar.formatINR(item.itemTotal)}
+                  </div>
+
+                  <button class="cart-item-remove-btn" onclick="CartService.removeItem('${item.cartItemId}')" title="Remove item" aria-label="Remove item">
+                    <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                  </button>
+                </div>
+              `).join("")}
+            </div>
+
+            <div style="margin-top: 24px; display:flex; justify-content:space-between; align-items:center;">
+              <a href="menu.html" class="btn btn-outline">&larr; Add More Items</a>
+            </div>
+          </div>
+
+          <!-- Right Column: Bill Summary & Promo Coupon -->
+          <div>
+            <!-- Free Delivery Tracker -->
+            <div class="free-delivery-progress-wrap">
+              <div class="free-delivery-text">
+                ${remainingForFree > 0
+                  ? `Add <strong>${SevenStar.formatINR(remainingForFree)}</strong> more to get <strong>FREE Delivery</strong>!`
+                  : `🎉 <strong>Congratulations!</strong> You qualify for <strong>FREE Delivery</strong>.`
+                }
+              </div>
+              <div class="free-delivery-bar">
+                <div class="free-delivery-fill" style="width: ${progressPercent}%;"></div>
+              </div>
+            </div>
+
+            <div class="cart-card">
+              <h2 style="font-size: 1.25rem; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
+                Order Summary
+              </h2>
+
+              <!-- Promo Coupon Box -->
+              <div>
+                <label style="display:block; font-size: 0.8125rem; font-weight:700; text-transform:uppercase; color: var(--color-charcoal); margin-bottom: 4px;">
+                  Have a Discount Promo Code?
+                </label>
+                <div class="coupon-input-group">
+                  <input type="text" id="coupon-code-input" placeholder="e.g. SEVENSTAR10" value="${totals.coupon ? totals.coupon.code : ''}">
+                  <button class="btn btn-secondary btn-sm" onclick="handleApplyCoupon()">Apply</button>
+                </div>
+                ${totals.coupon ? `
+                  <div class="applied-coupon-pill">
+                    <span>✓ Coupon <strong>${totals.coupon.code}</strong> applied</span>
+                    <button onclick="CartService.removeCoupon()" style="font-size: 0.75rem; color: var(--color-primary-red); font-weight:700;">Remove</button>
+                  </div>
+                ` : ''}
+                <div style="margin-top: 8px; font-size: 0.75rem; color: var(--color-text-muted);">
+                  Try <strong>SEVENSTAR10</strong> (10% off) or <strong>WELCOME50</strong> (€2.00 off)
+                </div>
+              </div>
+
+              <!-- Price Breakdown Rows -->
+              <div class="summary-rows-wrap">
+                <div class="summary-row">
+                  <span>Item Subtotal</span>
+                  <span>${SevenStar.formatINR(totals.subtotal)}</span>
+                </div>
+
+                ${totals.discount > 0 ? `
+                  <div class="summary-row discount-row">
+                    <span>Special Coupon Discount</span>
+                    <span>-${SevenStar.formatINR(totals.discount)}</span>
+                  </div>
+                ` : ''}
+
+                <div class="summary-row">
+                  <span>Standard Packaging</span>
+                  <span>${SevenStar.formatINR(totals.packagingCharge)}</span>
+                </div>
+
+                <div class="summary-row">
+                  <span>Delivery Charges</span>
+                  <span>${totals.deliveryFee === 0 ? '<strong style="color: var(--color-olive-green);">FREE</strong>' : SevenStar.formatINR(totals.deliveryFee)}</span>
+                </div>
+
+                <div class="summary-row">
+                  <span>Taxes & GST (5%)</span>
+                  <span>${SevenStar.formatINR(totals.gst)}</span>
+                </div>
+
+                <div class="summary-row grand-total-row">
+                  <span>Total Amount</span>
+                  <span class="total-val">${SevenStar.formatINR(totals.grandTotal)}</span>
+                </div>
+              </div>
+
+              <a href="checkout.html" class="btn btn-primary btn-lg btn-block">
+                Proceed to Secure Checkout &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleApplyCoupon() {
+      const codeInput = document.getElementById("coupon-code-input");
+      if (!codeInput || !codeInput.value.trim()) {
+        SevenStar.showToast("Please enter a valid coupon code.", "error");
+        return;
+      }
+      const res = CartService.applyCoupon(codeInput.value.trim());
+      if (res.success) {
+        SevenStar.showToast(res.message, "success");
+      } else {
+        SevenStar.showToast(res.message, "error");
+      }
+    }
+  </script>
+</body>
+</html>
+

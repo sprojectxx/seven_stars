@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Details | Seven Star Restaurant</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/print.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-info">
+        <span class="top-info-item">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+          Jubilee Hills, Hyderabad
+        </span>
+        <span class="top-info-item">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          +91 98765 43210
+        </span>
+      </div>
+      <div class="top-bar-links">
+        <a href="admin/index.html" class="top-link highlight">Admin Portal &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="site-logo">
+        <div class="logo-symbol">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <div class="logo-text-wrap">
+          <span class="logo-title">Seven Star</span>
+          <span class="logo-sub" style="color:var(--color-primary-red); font-weight:700;">Take Away Kitchen</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html#takeaway-menu" class="nav-link">Menu & Order</a>
+        <a href="contact.html" class="nav-link">Pickup Location</a>
+        <a href="admin/index.html" class="nav-link" style="color:var(--color-muted-blue);">Admin Portal</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="cart.html" class="header-cart-btn" aria-label="Shopping Cart">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M17.21 9l-4.38-6.56a.993.993 0 0 0-.83-.42c-.32 0-.64.14-.83.43L6.79 9H2c-.55 0-1 .45-1 1 0 .09.01.18.04.27l2.54 9.27c.23.84 1 1.46 1.92 1.46h13c.92 0 1.69-.62 1.93-1.46l2.54-9.27L23 10c0-.55-.45-1-1-1h-4.79zM9 9l3-4.4L15 9H9zm3 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+          <span class="header-cart-count">0</span>
+        </a>
+        <a href="cart.html" class="btn btn-primary btn-sm">View Cart</a>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-nav-overlay"></div>
+
+  <!-- Details Content Container -->
+  <main class="details-page-section">
+    <div class="container">
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs" id="details-breadcrumbs">
+        <a href="index.html">Home</a> &rsaquo;
+        <a href="index.html#takeaway-menu">Take Away Menu</a> &rsaquo;
+        <span id="breadcrumb-current">Dish Details</span>
+      </nav>
+
+      <!-- Details Card Component -->
+      <div id="details-render-target">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Related Dishes Section -->
+      <div id="related-dishes-section" style="margin-top: 64px;">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 Seven Star Restaurant Demo. All rights reserved.</div>
+        <div><a href="admin/index.html" style="color: var(--color-light-blue);">Admin Management &rarr;</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    let currentItem = null;
+    let selectedVariant = null;
+    let currentQuantity = 1;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const itemId = urlParams.get("id");
+
+      if (!itemId) {
+        showError("No item specified.");
+        return;
+      }
+
+      currentItem = MenuService.getItemById(itemId);
+      if (!currentItem) {
+        showError("Dish not found in our current culinary catalogue.");
+        return;
+      }
+
+      // Default to first variant
+      selectedVariant = currentItem.variants && currentItem.variants.length > 0
+        ? currentItem.variants[0]
+        : { name: "Standard", price: currentItem.price };
+
+      renderItemDetails();
+      renderRelatedDishes();
+    });
+
+    function showError(msg) {
+      document.getElementById("details-render-target").innerHTML = `
+        <div class="empty-results-box">
+          <h2 style="font-size: 1.5rem; margin-bottom: 10px;">${msg}</h2>
+          <a href="index.html#takeaway-menu" class="btn btn-primary">Return to Take Away Menu</a>
+        </div>
+      `;
+    }
+
+    function renderItemDetails() {
+      document.title = `${currentItem.name} | Seven Star Restaurant`;
+      document.getElementById("breadcrumb-current").textContent = currentItem.name;
+
+      const target = document.getElementById("details-render-target");
+      const activePrice = selectedVariant.price;
+
+      target.innerHTML = `
+        <div class="details-grid">
+          <div class="details-gallery">
+            <img src="${currentItem.image}" alt="${currentItem.name}" class="details-main-img">
+            ${currentItem.badge ? `<span class="dish-badge-pill" style="top:20px; left:20px;">${currentItem.badge}</span>` : ''}
+          </div>
+
+          <div class="details-content">
+            <div class="details-header-row">
+              ${SevenStar.getDietaryBadge(currentItem.isVeg)}
+              <span style="font-size: 0.8125rem; color: var(--color-warm-brown); font-weight: 700; text-transform: uppercase;">
+                ${currentItem.category.replace(/-/g, ' ')}
+              </span>
+            </div>
+
+            <h1 class="details-title">${currentItem.name}</h1>
+            <div class="details-price-tag" id="dynamic-price-tag">
+              ${SevenStar.formatINR(activePrice)}
+            </div>
+
+            <p class="details-description">
+              ${currentItem.description}
+            </p>
+
+            <!-- Portion / Variant Selector -->
+            ${currentItem.variants && currentItem.variants.length > 0 ? `
+              <div class="variant-selector-box">
+                <label>Select Portion Size</label>
+                <div class="variant-options-grid">
+                  ${currentItem.variants.map((v, idx) => `
+                    <button class="variant-option-btn ${v.name === selectedVariant.name ? 'selected' : ''}" onclick="selectVariant('${v.name}', ${v.price})">
+                      <span>${v.name}</span>
+                      <strong style="color: var(--color-primary-red);">${SevenStar.formatINR(v.price)}</strong>
+                    </button>
+                  `).join("")}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Special Instructions Input -->
+            <div class="form-group" style="margin-top: 14px;">
+              <label for="dish-instructions">Special Chef Instructions (Optional)</label>
+              <input type="text" id="dish-instructions" placeholder="e.g. Less spicy, extra mint chutney, well done" style="font-size: 0.875rem;">
+            </div>
+
+            <!-- Quantity & Add to Cart -->
+            <div class="details-action-row">
+              <div class="quantity-stepper">
+                <button class="stepper-btn" onclick="updateQty(-1)" aria-label="Decrease quantity">&minus;</button>
+                <span class="stepper-val" id="qty-val">${currentQuantity}</span>
+                <button class="stepper-btn" onclick="updateQty(1)" aria-label="Increase quantity">&plus;</button>
+              </div>
+
+              <button class="btn btn-primary btn-lg" style="flex:1;" onclick="handleAddToCart()" ${!currentItem.isAvailable ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+                ${currentItem.isAvailable ? `Add to Cart • <span id="btn-total-price">${SevenStar.formatINR(activePrice * currentQuantity)}</span>` : 'Currently Sold Out'}
+              </button>
+            </div>
+
+            <!-- Dish Culinary Highlights -->
+            <div class="dish-facts-strip">
+              <div class="fact-item">
+                <span>Preparation</span>
+                <strong>${currentItem.prepTime || '15-20 min'}</strong>
+              </div>
+              <div class="fact-item">
+                <span>Spice Level</span>
+                <strong>${currentItem.spiceLevel || 'Mild'}</strong>
+              </div>
+              <div class="fact-item">
+                <span>Energy</span>
+                <strong>${currentItem.calories || '320 kcal'}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectVariant(name, price) {
+      selectedVariant = { name, price };
+      document.querySelectorAll(".variant-option-btn").forEach(btn => {
+        btn.classList.toggle("selected", btn.textContent.includes(name));
+      });
+      document.getElementById("dynamic-price-tag").textContent = SevenStar.formatINR(price);
+      document.getElementById("btn-total-price").textContent = SevenStar.formatINR(price * currentQuantity);
+    }
+
+    function updateQty(delta) {
+      currentQuantity = Math.max(1, currentQuantity + delta);
+      document.getElementById("qty-val").textContent = currentQuantity;
+      document.getElementById("btn-total-price").textContent = SevenStar.formatINR(selectedVariant.price * currentQuantity);
+    }
+
+    function handleAddToCart() {
+      if (!currentItem.isAvailable) return;
+
+      const instructions = (document.getElementById("dish-instructions")?.value || "").trim();
+      CartService.addItem(currentItem, selectedVariant.name, currentQuantity, instructions);
+
+      SevenStar.showToast(`Added <strong>${currentQuantity}x ${currentItem.name} (${selectedVariant.name})</strong> to cart!`, 'success');
+
+      // Reset quantity
+      currentQuantity = 1;
+      const qtyEl = document.getElementById("qty-val");
+      if (qtyEl) qtyEl.textContent = 1;
+      const btnTotal = document.getElementById("btn-total-price");
+      if (btnTotal) btnTotal.textContent = SevenStar.formatINR(selectedVariant.price);
+    }
+
+    function renderRelatedDishes() {
+      const related = MenuService.getRelatedItems(currentItem.id, 3);
+      const container = document.getElementById("related-dishes-section");
+      if (!container || related.length === 0) return;
+
+      container.innerHTML = `
+        <div class="section-header text-left" style="margin-bottom: 24px;">
+          <h2 style="font-size: 1.625rem;">Pairs Exquisitely With</h2>
+        </div>
+        <div class="dishes-grid">
+          ${related.map(item => `
+            <div class="dish-card">
+              <div class="dish-card-img-wrap">
+                <a href="food-details.html?id=${item.id}">
+                  <img src="${item.image}" alt="${item.name}" loading="lazy">
+                </a>
+              </div>
+              <div class="dish-card-body">
+                <div class="dish-meta-row">
+                  ${SevenStar.getDietaryBadge(item.isVeg)}
+                  <span style="font-size: 0.75rem; color: var(--color-warm-brown); font-weight: 600;">${item.category.replace(/-/g, ' ')}</span>
+                </div>
+                <h3 class="dish-title"><a href="food-details.html?id=${item.id}">${item.name}</a></h3>
+                <div class="dish-footer-row" style="margin-top:auto;">
+                  <span class="dish-price">${SevenStar.formatINR(item.price)}</span>
+                  <button class="btn btn-outline btn-sm" onclick="SevenStar.quickAddToCart('${item.id}', event)">+ Add</button>
+                </div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
+

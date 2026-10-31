@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Seven Star Restaurant</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="admin-body">
+
+  <!-- ADMIN SIDEBAR -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="admin-sidebar-brand">
+      <div class="brand-logo-icon">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Seven Star</span>
+        <span class="brand-portal-label">Admin Portal</span>
+      </div>
+    </div>
+
+    <nav class="admin-nav">
+      <div class="admin-nav-group-title">Main Operations</div>
+      <a href="dashboard.html" class="active">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="orders.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        <span>Order Management</span>
+      </a>
+      <a href="menu-management.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+        <span>Menu Management</span>
+      </a>
+
+      <div class="admin-nav-group-title">Guests & Accounts</div>
+      <a href="customers.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <span>Customer Directory</span>
+      </a>
+      <a href="staff.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        <span>Staff Accounts</span>
+      </a>
+
+      <div class="admin-nav-group-title">Analytics & Config</div>
+      <a href="reports.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+        <span>Sales & Reports</span>
+      </a>
+      <a href="settings.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+        <span>Settings & Reset</span>
+      </a>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <div class="admin-sidebar-user">
+        <span class="user-name" id="admin-user-name">Chef Rajeshwar</span>
+        <span class="role-badge role-admin" id="admin-user-role">ADMIN</span>
+      </div>
+      <button class="admin-logout-btn" onclick="AuthService.logout()" title="Logout" aria-label="Sign out">
+        <svg viewBox="0 0 24 24" style="width:18px; height:18px;"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ADMIN MAIN WRAPPER -->
+  <div class="admin-main">
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <button class="admin-mobile-toggle" onclick="document.getElementById('admin-sidebar').classList.toggle('active')" aria-label="Toggle sidebar">
+          ☰
+        </button>
+        <h1 class="admin-topbar-title">Executive Dashboard</h1>
+      </div>
+
+      <div class="admin-topbar-right">
+        <!-- Chime test button -->
+        <button class="btn btn-outline btn-sm" onclick="AdminApp.playOrderChime()" title="Test Web Audio sound chime">
+          🔔 Test Chime
+        </button>
+
+        <!-- View customer site -->
+        <a href="../index.html" class="view-site-link" target="_blank">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+          Customer Website
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="admin-content-area">
+      <!-- Live Order Alert Banner (Shows when order arrives) -->
+      <div class="live-order-alert-banner" id="live-order-alert">
+        <div class="live-alert-content">
+          <svg class="live-alert-bell" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+          <div>
+            <strong id="live-alert-title">New Order Received!</strong>
+            <div style="font-size: 0.8125rem; opacity: 0.9;" id="live-alert-desc">Order #SSR-XXXX just arrived from customer</div>
+          </div>
+        </div>
+        <div>
+          <a href="orders.html" class="btn btn-outline btn-sm" style="background:#fff; color:var(--color-primary-red); border-color:#fff;">
+            Manage Orders &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- KPI Stat Cards Grid -->
+      <div class="stats-cards-grid" id="dashboard-kpi-grid">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Dashboard Main Row: Recent Orders & Top Selling Dishes -->
+      <div style="display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 24px; align-items: start;">
+        <!-- Left: Recent Orders Table -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h2 class="admin-card-title">Recent Kitchen Orders</h2>
+            <a href="orders.html" class="btn btn-outline btn-sm">View All Orders &rarr;</a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="recent-orders-tbody">
+                <!-- Rendered by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right: Top Selling Dishes -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h2 class="admin-card-title">Top Selling Dishes</h2>
+            <a href="menu-management.html" class="btn btn-outline btn-sm">Manage Menu</a>
+          </div>
+
+          <div id="top-selling-list" style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- Rendered by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/menu.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/orders.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      AdminApp.init();
+      renderDashboard();
+
+      // Listen to new order alerts or status modifications
+      window.addEventListener("sevenstar:new_order_alert", (e) => {
+        showLiveAlertBanner(e.detail);
+        renderDashboard();
+      });
+
+      window.addEventListener("sevenstar:order_status_modified", () => {
+        renderDashboard();
+      });
+
+      window.addEventListener("sevenstar:order_created", (e) => {
+        showLiveAlertBanner(e.detail);
+        renderDashboard();
+      });
+    });
+
+    function showLiveAlertBanner(order) {
+      const banner = document.getElementById("live-order-alert");
+      const title = document.getElementById("live-alert-title");
+      const desc = document.getElementById("live-alert-desc");
+      if (banner && order) {
+        title.textContent = `New Order Placed: #${order.id}!`;
+        desc.textContent = `Customer: ${order.customer.name} • Amount: ${SevenStar.formatINR(order.pricing.grandTotal)}`;
+        banner.style.display = "flex";
+      }
+    }
+
+    function renderDashboard() {
+      // 1. Render KPIs
+      const stats = ReportsService.getDashboardStats();
+      const kpiContainer = document.getElementById("dashboard-kpi-grid");
+
+      if (kpiContainer) {
+        kpiContainer.innerHTML = `
+          <div class="stat-card">
+            <div class="stat-card-info">
+              <span class="stat-card-label">Total Orders</span>
+              <span class="stat-card-value">${stats.totalOrders}</span>
+              <span class="stat-card-sub">${stats.newOrders} New placed</span>
+            </div>
+            <div class="stat-card-icon icon-blue">
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-info">
+              <span class="stat-card-label">Active / Preparing</span>
+              <span class="stat-card-value">${stats.pendingOrders}</span>
+              <span class="stat-card-sub" style="color:var(--color-primary-red);">In Kitchen Queue</span>
+            </div>
+            <div class="stat-card-icon icon-red">
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4a1 1 0 0 0 1.41 1.41l1.79-.62C9.17 21.36 10.54 22 12 22c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-info">
+              <span class="stat-card-label">Total Revenue</span>
+              <span class="stat-card-value">${SevenStar.formatINR(stats.totalRevenue)}</span>
+              <span class="stat-card-sub">${SevenStar.formatINR(stats.averageOrderValue)} Avg Order</span>
+            </div>
+            <div class="stat-card-icon icon-green">
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-info">
+              <span class="stat-card-label">Menu Items</span>
+              <span class="stat-card-value">${stats.totalMenuItems}</span>
+              <span class="stat-card-sub">${stats.availableMenuItems} In stock</span>
+            </div>
+            <div class="stat-card-icon icon-brown">
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+            </div>
+          </div>
+        `;
+      }
+
+      // 2. Render Recent Orders (top 5)
+      const orders = OrderService.getOrders().slice(0, 5);
+      const tbody = document.getElementById("recent-orders-tbody");
+      if (tbody) {
+        tbody.innerHTML = orders.map(o => `
+          <tr>
+            <td>
+              <strong style="color:var(--color-primary-red);">${o.id}</strong>
+              <div style="font-size:0.75rem; color:var(--color-text-muted);">${AdminApp.formatDateTime(o.orderDate)}</div>
+            </td>
+            <td>
+              <strong>${o.customer.name}</strong>
+              <div style="font-size:0.75rem; color:var(--color-text-muted);">${o.customer.phone}</div>
+            </td>
+            <td>
+              <span style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--color-warm-brown);">
+                ${o.orderType}
+              </span>
+            </td>
+            <td>
+              <strong>${SevenStar.formatINR(o.pricing?.grandTotal || 0)}</strong>
+            </td>
+            <td>
+              ${AdminApp.renderStatusSelect(o.id, o.status)}
+            </td>
+            <td>
+              <a href="order-details.html?id=${o.id}" class="btn btn-outline btn-sm">
+                Details &rarr;
+              </a>
+            </td>
+          </tr>
+        `).join("");
+      }
+
+      // 3. Render Top Selling Dishes
+      const topItems = ReportsService.getTopSellingItems(5);
+      const topContainer = document.getElementById("top-selling-list");
+      if (topContainer) {
+        const maxQty = topItems.length > 0 ? topItems[0].totalQuantity : 1;
+        topContainer.innerHTML = topItems.map(item => {
+          const percent = Math.round((item.totalQuantity / maxQty) * 100);
+          return `
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.875rem; margin-bottom:4px;">
+                <span><strong>${item.name}</strong></span>
+                <span style="color:var(--color-primary-red); font-weight:700;">${item.totalQuantity} sold</span>
+              </div>
+              <div style="height:6px; background-color: var(--color-border); border-radius:4px; overflow:hidden;">
+                <div style="width: ${percent}%; height:100%; background-color: var(--color-primary-red);"></div>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+    }
+  </script>
+</body>
+</html>
+

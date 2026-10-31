@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation | Seven Star Restaurant</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/print.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-info">
+        <span class="top-info-item">Jubilee Hills, Hyderabad</span>
+        <span class="top-info-item">+91 98765 43210</span>
+      </div>
+      <div class="top-bar-links">
+        <a href="admin/index.html" class="top-link highlight">Admin Portal Demo &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="site-logo">
+        <div class="logo-symbol">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <div class="logo-text-wrap">
+          <span class="logo-title">Seven Star</span>
+          <span class="logo-sub" style="color:var(--color-primary-red); font-weight:700;">Take Away Kitchen</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html#takeaway-menu" class="nav-link">Menu & Order</a>
+        <a href="contact.html" class="nav-link">Pickup Location</a>
+        <a href="admin/index.html" class="nav-link" style="color:var(--color-muted-blue);">Admin Portal</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="index.html#takeaway-menu" class="btn btn-outline btn-sm">Order More Take Away</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Confirmation Section -->
+  <main class="confirmation-section">
+    <div class="container">
+      <div id="confirmation-render-target">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Hidden Printable Wrapper Target for window.print() -->
+  <div id="printable-receipt-container"></div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 Seven Star Restaurant Demo. All rights reserved.</div>
+        <div><a href="admin/index.html" style="color: var(--color-light-blue);">Admin Management &rarr;</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    let activeOrder = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderId = urlParams.get("id");
+
+      if (!orderId) {
+        showError("No order ID provided.");
+        return;
+      }
+
+      activeOrder = OrderService.getOrderById(orderId);
+      if (!activeOrder) {
+        showError(`Order <strong>${orderId}</strong> could not be located in LocalStorage.`);
+        return;
+      }
+
+      renderOrderConfirmation(activeOrder);
+    });
+
+    function showError(msg) {
+      document.getElementById("confirmation-render-target").innerHTML = `
+        <div class="empty-results-box" style="padding: 60px 20px;">
+          <h2 style="font-size: 1.5rem; margin-bottom: 12px;">${msg}</h2>
+          <a href="index.html" class="btn btn-primary">Return to Home</a>
+        </div>
+      `;
+    }
+
+    function renderOrderConfirmation(order) {
+      const target = document.getElementById("confirmation-render-target");
+      const isPaid = order.payment.status === "paid";
+      const formattedDate = new Date(order.orderDate).toLocaleString("en-IN", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      });
+
+      target.innerHTML = `
+        <div class="confirmation-card">
+          <!-- Hero Banner -->
+          <div class="confirmation-hero-banner">
+            <div class="conf-check-icon">
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <h1>Order Confirmed!</h1>
+            <p style="font-size: 1rem; opacity: 0.9;">
+              Thank you, <strong>${order.customer.name}</strong>. Your order has been registered in our kitchen queue.
+            </p>
+          </div>
+
+          <div class="confirmation-body">
+            <!-- Receipt Box -->
+            <div class="receipt-box" id="onscreen-receipt">
+              <div class="receipt-restaurant-head">
+                <h2>Seven Star Take Away</h2>
+                <p>Express Kitchen & Take Away Counter • Jubilee Hills, Hyderabad</p>
+                <p>Phone: +91 98765 43210 • GSTIN: 36AAACS1429B1Z8</p>
+              </div>
+
+              <div class="receipt-meta-grid">
+                <div>
+                  <strong>Order ID:</strong> ${order.id}<br>
+                  <strong>Date & Time:</strong> ${formattedDate}<br>
+                  <strong>Service Type:</strong> ${order.orderType === 'delivery' ? 'Home Delivery' : 'Restaurant Pickup'}
+                </div>
+                <div>
+                  <strong>Customer:</strong> ${order.customer.name}<br>
+                  <strong>Phone:</strong> ${order.customer.phone}<br>
+                  <strong>Payment:</strong> ${order.payment.method.toUpperCase()} (${isPaid ? 'PAID' : 'PENDING ON DELIVERY'})
+                </div>
+              </div>
+
+              <div style="font-size: 0.8125rem; margin-bottom: 12px;">
+                <strong>Address:</strong> ${order.customer.address}
+                ${order.customer.notes ? `<div style="font-style: italic; color: var(--color-warm-brown); margin-top: 2px;">Note: "${order.customer.notes}"</div>` : ''}
+              </div>
+
+              <table class="receipt-items-table">
+                <thead>
+                  <tr>
+                    <th>Item & Variant</th>
+                    <th style="text-align: center;">Qty</th>
+                    <th style="text-align: right;">Rate</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${order.items.map(i => `
+                    <tr>
+                      <td>
+                        <strong>${i.name}</strong>
+                        <div style="font-size: 0.72rem; color: var(--color-warm-brown);">${i.variant}</div>
+                      </td>
+                      <td style="text-align: center;">${i.quantity}</td>
+                      <td style="text-align: right;">${SevenStar.formatINR(i.price)}</td>
+                      <td>${SevenStar.formatINR(i.itemTotal)}</td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
+
+              <div class="receipt-summary-block">
+                <div class="receipt-summary-row">
+                  <span>Subtotal</span>
+                  <span>${SevenStar.formatINR(order.pricing.subtotal)}</span>
+                </div>
+                ${order.pricing.discount > 0 ? `
+                  <div class="receipt-summary-row" style="color: var(--color-olive-green);">
+                    <span>Discount (${order.pricing.couponCode || 'PROMO'})</span>
+                    <span>-${SevenStar.formatINR(order.pricing.discount)}</span>
+                  </div>
+                ` : ''}
+                <div class="receipt-summary-row">
+                  <span>Packaging Charges</span>
+                  <span>${SevenStar.formatINR(order.pricing.packagingCharge)}</span>
+                </div>
+                <div class="receipt-summary-row">
+                  <span>Delivery Charges</span>
+                  <span>${order.pricing.deliveryFee === 0 ? 'FREE' : SevenStar.formatINR(order.pricing.deliveryFee)}</span>
+                </div>
+                <div class="receipt-summary-row">
+                  <span>GST Taxes (5%)</span>
+                  <span>${SevenStar.formatINR(order.pricing.gst)}</span>
+                </div>
+                <div class="receipt-summary-row receipt-grand-total">
+                  <span>Grand Total</span>
+                  <span>${SevenStar.formatINR(order.pricing.grandTotal)}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Receipt Print & Tracking Actions -->
+            <div class="receipt-print-actions">
+              <button class="btn btn-outline" onclick="printReceipt('a4')">
+                <svg viewBox="0 0 24 24" style="width:16px; height:16px;"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                Print A4 Tax Invoice
+              </button>
+
+              <button class="btn btn-outline" onclick="printReceipt('thermal')">
+                <svg viewBox="0 0 24 24" style="width:16px; height:16px;"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                Print 80mm Thermal POS Slip
+              </button>
+
+              <a href="index.html#takeaway-menu" class="btn btn-primary">
+                Order More Take Away &rarr;
+              </a>
+            </div>
+
+            <div style="text-align: center; margin-top: 24px; font-size: 0.8125rem; color: var(--color-text-muted);">
+              Notice: Automatic hardware receipt printer integration is simulated for this demo prototype.
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function printReceipt(format) {
+      if (!activeOrder) return;
+      const printContainer = document.getElementById("printable-receipt-container");
+      const order = activeOrder;
+      const formattedDate = new Date(order.orderDate).toLocaleString("en-IN");
+
+      if (format === "a4") {
+        printContainer.innerHTML = `
+          <div class="a4-invoice-layout">
+            <div class="inv-header">
+              <div class="inv-brand">
+                <h1>Seven Star Take Away</h1>
+                <p>Plot No. 42, Royal Heritage Enclave, Road No. 36, Jubilee Hills</p>
+                <p>Hyderabad, Telangana - 500033 | Phone: +91 98765 43210</p>
+                <p>GSTIN: 36AAACS1429B1Z8 | FSSAI Lic No: 13622011000214</p>
+              </div>
+              <div class="inv-details">
+                <h2>Tax Invoice</h2>
+                <p><strong>Invoice No:</strong> ${order.id}</p>
+                <p><strong>Date:</strong> ${formattedDate}</p>
+                <p><strong>Service:</strong> ${order.orderType === 'delivery' ? 'Home Delivery' : 'Restaurant Pickup'}</p>
+              </div>
+            </div>
+
+            <div class="inv-meta-grid">
+              <div class="inv-meta-col">
+                <h4>Billed & Delivered To:</h4>
+                <strong>${order.customer.name}</strong><br>
+                ${order.customer.phone}<br>
+                ${order.customer.address}
+              </div>
+              <div class="inv-meta-col" style="text-align: right;">
+                <h4>Payment Information:</h4>
+                <strong>Method:</strong> ${order.payment.method.toUpperCase()}<br>
+                <strong>Status:</strong> ${order.payment.status.toUpperCase()}<br>
+                ${order.payment.transactionId ? `Ref: ${order.payment.transactionId}` : ''}
+              </div>
+            </div>
+
+            <table class="inv-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Item Description</th>
+                  <th>Portion</th>
+                  <th style="text-align:center;">Qty</th>
+                  <th style="text-align:right;">Rate (€)</th>
+                  <th style="text-align:right;">Amount (€)</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${order.items.map((i, idx) => `
+                  <tr>
+                    <td>${idx + 1}</td>
+                    <td><strong>${i.name}</strong></td>
+                    <td>${i.variant}</td>
+                    <td style="text-align:center;">${i.quantity}</td>
+                    <td style="text-align:right;">€${i.price.toFixed(2)}</td>
+                    <td style="text-align:right;">€${i.itemTotal.toFixed(2)}</td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+
+            <div class="inv-totals-wrap">
+              <div class="inv-total-row"><span>Item Subtotal:</span><span>€${order.pricing.subtotal.toFixed(2)}</span></div>
+              ${order.pricing.discount > 0 ? `<div class="inv-total-row" style="color:#6A994E;"><span>Discount (${order.pricing.couponCode || 'PROMO'}):</span><span>-€${order.pricing.discount.toFixed(2)}</span></div>` : ''}
+              <div class="inv-total-row"><span>Packaging Charge:</span><span>€${order.pricing.packagingCharge.toFixed(2)}</span></div>
+              <div class="inv-total-row"><span>Delivery Fee:</span><span>€${order.pricing.deliveryFee.toFixed(2)}</span></div>
+              <div class="inv-total-row"><span>GST Taxes (5%):</span><span>€${order.pricing.gst.toFixed(2)}</span></div>
+              <div class="inv-total-row grand"><span>Grand Total:</span><span>€${order.pricing.grandTotal.toFixed(2)}</span></div>
+            </div>
+
+            <div class="inv-footer-note">
+              <p>Thank you for ordering with Seven Stars Indian Takeaway! For questions or curbside handover, call 01772 457 008.</p>
+              <p>360 Leyland Lane, Leyland, PR25 1TB • www.seven-stars.justeat.co.uk</p>
+            </div>
+          </div>
+        `;
+      } else {
+        // Thermal POS Receipt Slip
+        printContainer.innerHTML = `
+          <div class="thermal-receipt-layout">
+            <div class="th-center">
+              <div class="th-title">SEVEN STARS INDIAN TAKEAWAY</div>
+              <div class="th-sub">360 Leyland Lane, Leyland, PR25 1TB</div>
+              <div class="th-sub">Tel: 01772 457 008 / 457 838</div>
+              <div class="th-sub">VAT: GB45783801772</div>
+            </div>
+            <div class="th-divider"></div>
+            <div class="th-meta-row"><span>ORDER:</span><strong>${order.id}</strong></div>
+            <div class="th-meta-row"><span>DATE:</span><span>${formattedDate}</span></div>
+            <div class="th-meta-row"><span>TYPE:</span><strong>${order.orderType.toUpperCase()}</strong></div>
+            <div class="th-meta-row"><span>CUST:</span><span>${order.customer.name}</span></div>
+            <div class="th-meta-row"><span>PHONE:</span><span>${order.customer.phone}</span></div>
+            <div class="th-divider"></div>
+
+            <div class="th-items-head">
+              <span>ITEM</span>
+              <span>QTY x RATE</span>
+              <span>AMT</span>
+            </div>
+
+            ${order.items.map(i => `
+              <div class="th-item-row">
+                <div class="th-item-name">${i.name} (${i.variant})</div>
+                <div class="th-item-calc">${i.quantity} x €${Number(i.price).toFixed(2)}</div>
+                <div class="th-item-calc">€${Number(i.itemTotal).toFixed(2)}</div>
+              </div>
+            `).join("")}
+
+            <div class="th-divider"></div>
+            <div class="th-meta-row"><span>SUBTOTAL:</span><span>€${Number(order.pricing.subtotal).toFixed(2)}</span></div>
+            ${order.pricing.discount > 0 ? `<div class="th-meta-row"><span>DISCOUNT:</span><span>-€${Number(order.pricing.discount).toFixed(2)}</span></div>` : ''}
+            <div class="th-meta-row"><span>PACKING:</span><span>€${Number(order.pricing.packagingCharge).toFixed(2)}</span></div>
+            <div class="th-meta-row"><span>DELIVERY:</span><span>€${Number(order.pricing.deliveryFee).toFixed(2)}</span></div>
+            <div class="th-meta-row"><span>GST (5%):</span><span>€${Number(order.pricing.gst).toFixed(2)}</span></div>
+            
+            <div class="th-grand-total">
+              <span>TOTAL PAYABLE:</span>
+              <span>€${Number(order.pricing.grandTotal).toFixed(2)}</span>
+            </div>
+
+            <div class="th-meta-row"><span>PAYMENT:</span><strong>${order.payment.method.toUpperCase()} (${order.payment.status.toUpperCase()})</strong></div>
+            
+            <div class="th-divider"></div>
+            <div class="th-center">
+              <div class="th-barcode-mock">||| | |||| || |||||| |</div>
+              <div>*** THANK YOU! VISIT AGAIN ***</div>
+              <div style="font-size:8px; margin-top:4px;">PROTOTYPE POS RECEIPT</div>
+            </div>
+          </div>
+        `;
+      }
+
+      window.print();
+    }
+  </script>
+</body>
+</html>
+

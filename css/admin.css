@@ -1,0 +1,645 @@
+/* ==========================================================================
+   SEVEN STAR RESTAURANT — ADMIN PORTAL STYLESHEET
+   Luxury SaaS Dashboard Styling with Brand Palette Integration
+   ========================================================================== */
+
+:root {
+  --admin-sidebar-width: 260px;
+  --admin-header-height: 70px;
+  --admin-bg: #F8F6F2;
+  --admin-card-bg: #FFFFFF;
+  --admin-border: #E8E2DA;
+}
+
+body.admin-body {
+  background-color: var(--admin-bg);
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ==========================================================================
+   ADMIN SIDEBAR
+   ========================================================================== */
+.admin-sidebar {
+  width: var(--admin-sidebar-width);
+  background-color: var(--color-dark);
+  color: var(--color-ivory);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform var(--transition-normal);
+}
+
+.admin-sidebar-brand {
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-sidebar-brand .brand-logo-icon {
+  width: 36px;
+  height: 36px;
+  background-color: var(--color-primary-red);
+  color: var(--color-white);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.admin-sidebar-brand .brand-logo-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.admin-sidebar-brand .brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar-brand .brand-name {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-white);
+  line-height: 1.2;
+}
+
+.admin-sidebar-brand .brand-portal-label {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-light-blue);
+  font-weight: 600;
+}
+
+/* Navigation Links */
+.admin-nav {
+  flex: 1;
+  padding: 20px 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-nav-group-title {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 700;
+  padding: 12px 12px 6px;
+}
+
+.admin-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  transition: all var(--transition-fast);
+}
+
+.admin-nav a svg {
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color var(--transition-fast);
+}
+
+.admin-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-white);
+}
+
+.admin-nav a:hover svg {
+  color: var(--color-light-blue);
+}
+
+.admin-nav a.active {
+  background-color: var(--color-primary-red);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.admin-nav a.active svg {
+  color: var(--color-white);
+}
+
+.admin-sidebar-footer {
+  padding: 18px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-sidebar-user {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar-user .user-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.role-badge {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-top: 2px;
+}
+
+.role-badge.role-admin {
+  background-color: var(--color-primary-red);
+  color: var(--color-white);
+}
+
+.role-badge.role-staff {
+  background-color: var(--color-muted-blue);
+  color: var(--color-white);
+}
+
+.admin-logout-btn {
+  color: rgba(255, 255, 255, 0.6);
+  padding: 6px;
+  border-radius: var(--radius-sm);
+}
+
+.admin-logout-btn:hover {
+  color: var(--color-white);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   ADMIN MAIN CONTENT WRAPPER
+   ========================================================================== */
+.admin-main {
+  margin-left: var(--admin-sidebar-width);
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - var(--admin-sidebar-width));
+}
+
+/* Admin Header */
+.admin-topbar {
+  height: var(--admin-header-height);
+  background-color: var(--admin-card-bg);
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+
+.admin-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-topbar-title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.admin-mobile-toggle {
+  display: none;
+  font-size: 1.25rem;
+  color: var(--color-dark);
+}
+
+.admin-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.view-site-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-muted-blue);
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-cream);
+  transition: all var(--transition-fast);
+}
+
+.view-site-link:hover {
+  background-color: var(--color-white);
+  border-color: var(--color-muted-blue);
+}
+
+.view-site-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Admin Body Container */
+.admin-content-area {
+  padding: 32px;
+  flex: 1;
+}
+
+/* ==========================================================================
+   DASHBOARD STAT CARDS
+   ========================================================================== */
+.stats-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background-color: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-sm);
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.stat-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-card-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+.stat-card-value {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  line-height: 1.15;
+}
+
+.stat-card-sub {
+  font-size: 0.75rem;
+  color: var(--color-olive-green);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.stat-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-red { background-color: var(--color-primary-red-subtle); color: var(--color-primary-red); }
+.icon-blue { background-color: var(--color-light-blue); color: var(--color-muted-blue-dark); }
+.icon-green { background-color: var(--color-olive-green-subtle); color: var(--color-olive-green); }
+.icon-brown { background-color: rgba(114, 87, 82, 0.12); color: var(--color-warm-brown); }
+
+/* ==========================================================================
+   LIVE NEW ORDER ALERT BANNER
+   ========================================================================== */
+.live-order-alert-banner {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-primary-red);
+  color: var(--color-white);
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(165, 36, 34, 0.35);
+  animation: pulseAlert 2.5s infinite;
+}
+
+@keyframes pulseAlert {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.006); }
+  100% { transform: scale(1); }
+}
+
+.live-alert-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.live-alert-bell {
+  width: 28px;
+  height: 28px;
+  animation: ringBell 1s infinite alternate;
+}
+
+@keyframes ringBell {
+  from { transform: rotate(-15deg); }
+  to { transform: rotate(15deg); }
+}
+
+/* ==========================================================================
+   DATA TABLES
+   ========================================================================== */
+.admin-card {
+  background-color: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 28px;
+}
+
+.admin-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.admin-card-title {
+  font-size: 1.1875rem;
+  color: var(--color-dark);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 12px 14px;
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: 2px solid var(--admin-border);
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--admin-border);
+  vertical-align: middle;
+}
+
+.admin-table tr:hover td {
+  background-color: rgba(205, 230, 245, 0.15);
+}
+
+.status-select {
+  padding: 6px 10px;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background-color: var(--color-white);
+  cursor: pointer;
+}
+
+.status-select-placed { border-color: var(--color-muted-blue); color: var(--color-muted-blue); }
+.status-select-preparing { border-color: var(--color-primary-red); color: var(--color-primary-red); font-weight: 700; }
+.status-select-ready { border-color: var(--color-warm-brown); color: var(--color-warm-brown); }
+.status-select-completed { border-color: var(--color-olive-green); color: var(--color-olive-green); }
+.status-select-cancelled { border-color: #8E3B3A; color: #8E3B3A; }
+
+/* Filter Tabs inside Admin */
+.admin-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.admin-tab-btn {
+  padding: 7px 14px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--admin-border);
+  background-color: var(--color-white);
+  color: var(--color-text-muted);
+}
+
+.admin-tab-btn.active {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  border-color: var(--color-dark);
+}
+
+/* Switch Toggle for Availability */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  border-radius: 24px;
+  transition: 0.3s;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background-color: var(--color-olive-green);
+}
+
+input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+/* ==========================================================================
+   ADMIN LOGIN SCREEN
+   ========================================================================== */
+.admin-login-body {
+  background-color: var(--color-dark);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-image: 
+    linear-gradient(rgba(20, 16, 15, 0.85), rgba(20, 16, 15, 0.9)),
+    url('https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
+  padding: 40px;
+}
+
+.admin-login-brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.admin-login-brand .logo-symbol {
+  margin: 0 auto 14px;
+}
+
+.demo-credentials-helper-box {
+  background-color: var(--color-light-blue-subtle);
+  border: 1px solid var(--color-light-blue);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-top: 24px;
+  font-size: 0.8125rem;
+}
+
+.demo-cred-title {
+  font-weight: 700;
+  color: var(--color-muted-blue-dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.demo-fill-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  margin-top: 6px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--color-dark);
+  transition: all var(--transition-fast);
+}
+
+.demo-fill-btn:hover {
+  border-color: var(--color-muted-blue);
+  background-color: #F0F7FB;
+}
+
+/* ==========================================================================
+   ADMIN MOBILE RESPONSIVE
+   ========================================================================== */
+@media screen and (max-width: 1024px) {
+  .stats-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .admin-sidebar.active {
+    transform: translateX(0);
+  }
+
+  .admin-main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .admin-mobile-toggle {
+    display: block;
+  }
+
+  .admin-content-area {
+    padding: 20px 16px;
+  }
+
+  .stats-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

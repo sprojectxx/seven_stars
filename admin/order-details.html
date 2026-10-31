@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Details & Kitchen Slip | Seven Star Admin</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/print.css">
+</head>
+<body class="admin-body">
+
+  <!-- ADMIN SIDEBAR -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="admin-sidebar-brand">
+      <div class="brand-logo-icon">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Seven Star</span>
+        <span class="brand-portal-label">Admin Portal</span>
+      </div>
+    </div>
+
+    <nav class="admin-nav">
+      <a href="dashboard.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="orders.html" class="active">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        <span>Order Management</span>
+      </a>
+      <a href="menu-management.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+        <span>Menu Management</span>
+      </a>
+      <a href="customers.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <span>Customer Directory</span>
+      </a>
+      <a href="reports.html">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+        <span>Sales & Reports</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <a href="orders.html" class="btn btn-outline btn-sm">&larr; Back to Orders</a>
+        <h1 class="admin-topbar-title" id="order-title-header">Order Details</h1>
+      </div>
+      <div class="admin-topbar-right">
+        <a href="../index.html" class="view-site-link" target="_blank">Customer Site</a>
+      </div>
+    </header>
+
+    <main class="admin-content-area">
+      <div id="order-details-target">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Hidden Container for Print Execution -->
+  <div id="printable-receipt-container"></div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/menu.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/orders.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+
+  <script>
+    let currentOrder = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      AdminApp.init();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderId = urlParams.get("id");
+
+      if (!orderId) {
+        document.getElementById("order-details-target").innerHTML = `
+          <div class="empty-results-box">
+            <h2>No order ID provided</h2>
+            <a href="orders.html" class="btn btn-primary">Return to Orders</a>
+          </div>
+        `;
+        return;
+      }
+
+      currentOrder = OrderService.getOrderById(orderId);
+      if (!currentOrder) {
+        document.getElementById("order-details-target").innerHTML = `
+          <div class="empty-results-box">
+            <h2>Order "${orderId}" not found</h2>
+            <a href="orders.html" class="btn btn-primary">Return to Orders</a>
+          </div>
+        `;
+        return;
+      }
+
+      renderOrderDetails();
+    });
+
+    function renderOrderDetails() {
+      const order = currentOrder;
+      document.getElementById("order-title-header").textContent = `Order #${order.id}`;
+      const target = document.getElementById("order-details-target");
+
+      target.innerHTML = `
+        <!-- Workflow Action Bar -->
+        <div class="admin-card" style="border-left: 4px solid var(--color-primary-red);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div>
+              <span style="font-size:0.75rem; text-transform:uppercase; color:var(--color-warm-brown); font-weight:700;">Current Workflow State</span>
+              <div style="margin-top:4px;">
+                ${AdminApp.getStatusBadge(order.status)}
+                <span style="font-size:0.8125rem; color:var(--color-text-muted); margin-left:8px;">
+                  Placed on ${AdminApp.formatDateTime(order.orderDate)}
+                </span>
+              </div>
+            </div>
+
+            <!-- Workflow Buttons -->
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-outline btn-sm" onclick="advanceStatus('accepted')">✓ Accept Order</button>
+              <button class="btn btn-primary btn-sm" onclick="advanceStatus('preparing')">🍳 Kitchen Preparing</button>
+              <button class="btn btn-warm btn-sm" onclick="advanceStatus('ready')">🛵 Ready / Dispatched</button>
+              <button class="btn btn-secondary btn-sm" style="background:var(--color-olive-green); border-color:var(--color-olive-green);" onclick="advanceStatus('completed')">✔ Mark Completed</button>
+              <button class="btn btn-outline btn-sm" style="color:var(--color-primary-red); border-color:#e0b2b1;" onclick="advanceStatus('cancelled')">✕ Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1.6fr 1.1fr; gap:24px; align-items:start;">
+          <!-- Left: Items Breakdown -->
+          <div class="admin-card">
+            <h3 style="font-size:1.25rem; margin-bottom:16px;">Kitchen Items (${order.items.length})</h3>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Dish</th>
+                  <th>Portion</th>
+                  <th style="text-align:center;">Qty</th>
+                  <th style="text-align:right;">Rate</th>
+                  <th style="text-align:right;">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${order.items.map(i => `
+                  <tr>
+                    <td><strong>${i.name}</strong></td>
+                    <td style="color:var(--color-warm-brown);">${i.variant}</td>
+                    <td style="text-align:center; font-weight:700;">${i.quantity}</td>
+                    <td style="text-align:right;">${SevenStar.formatINR(i.price)}</td>
+                    <td style="text-align:right; font-weight:700;">${SevenStar.formatINR(i.itemTotal)}</td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+
+            <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--admin-border); max-width:320px; margin-left:auto;">
+              <div class="summary-row"><span>Subtotal:</span><span>${SevenStar.formatINR(order.pricing.subtotal)}</span></div>
+              ${order.pricing.discount > 0 ? `<div class="summary-row discount-row"><span>Discount:</span><span>-${SevenStar.formatINR(order.pricing.discount)}</span></div>` : ''}
+              <div class="summary-row"><span>Packaging:</span><span>${SevenStar.formatINR(order.pricing.packagingCharge)}</span></div>
+              <div class="summary-row"><span>Delivery:</span><span>${order.pricing.deliveryFee === 0 ? 'FREE' : SevenStar.formatINR(order.pricing.deliveryFee)}</span></div>
+              <div class="summary-row"><span>GST Taxes (5%):</span><span>${SevenStar.formatINR(order.pricing.gst)}</span></div>
+              <div class="summary-row grand-total-row"><span>Grand Total:</span><span class="total-val">${SevenStar.formatINR(order.pricing.grandTotal)}</span></div>
+            </div>
+          </div>
+
+          <!-- Right: Customer Info & Receipt Printing -->
+          <div>
+            <div class="admin-card" style="margin-bottom:24px;">
+              <h3 style="font-size:1.1875rem; margin-bottom:14px;">Customer Information</h3>
+              <div style="font-size:0.875rem; line-height:1.7;">
+                <p><strong>Name:</strong> ${order.customer.name}</p>
+                <p><strong>Phone:</strong> <a href="tel:${order.customer.phone}" style="color:var(--color-muted-blue); font-weight:700;">${order.customer.phone}</a></p>
+                <p><strong>Email:</strong> ${order.customer.email || 'None provided'}</p>
+                <p><strong>Service Type:</strong> <span style="text-transform:uppercase; font-weight:700; color:var(--color-warm-brown);">${order.orderType}</span></p>
+                <p><strong>Address:</strong> ${order.customer.address}</p>
+                ${order.customer.notes ? `<div style="margin-top:10px; padding:10px; background:var(--color-cream); border-left:3px solid var(--color-warm-brown); font-style:italic;">"${order.customer.notes}"</div>` : ''}
+              </div>
+            </div>
+
+            <div class="admin-card">
+              <h3 style="font-size:1.1875rem; margin-bottom:14px;">Print Restaurant Receipts</h3>
+              <p style="font-size:0.8125rem; color:var(--color-text-muted); margin-bottom:16px;">
+                Use the browser printing integration to output invoices or thermal receipts for kitchen and dispatch.
+              </p>
+
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <button class="btn btn-outline btn-block" onclick="printReceipt('a4')">
+                  📄 Print A4 Official Invoice
+                </button>
+                <button class="btn btn-outline btn-block" onclick="printReceipt('thermal')">
+                  🧾 Print 80mm Thermal Kitchen POS Slip
+                </button>
+              </div>
+
+              <div style="margin-top:14px; font-size:0.75rem; color:var(--color-text-muted); text-align:center;">
+                Note: In production, ESC/POS hardware printers communicate directly via Web Serial or a network print spooler.
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function advanceStatus(newStatus) {
+      if (!currentOrder) return;
+      const res = OrderService.updateOrderStatus(currentOrder.id, newStatus);
+      if (res.success) {
+        currentOrder = res.order;
+        SevenStar.showToast(`Order marked as <strong>${ORDER_STATUS_LABELS[newStatus]?.label}</strong>`, 'success');
+        renderOrderDetails();
+      }
+    }
+
+    function printReceipt(format) {
+      if (!currentOrder) return;
+      const printContainer = document.getElementById("printable-receipt-container");
+      const order = currentOrder;
+      const formattedDate = new Date(order.orderDate).toLocaleString("en-IN");
+
+      if (format === "a4") {
+        printContainer.innerHTML = `
+          <div class="a4-invoice-layout">
+            <div class="inv-header">
+              <div class="inv-brand">
+                <h1>Seven Star Restaurant</h1>
+                <p>Jubilee Hills, Hyderabad - 500033 | Tel: +91 98765 43210</p>
+                <p>GSTIN: 36AAACS1429B1Z8</p>
+              </div>
+              <div class="inv-details">
+                <h2>Tax Invoice</h2>
+                <p><strong>Order ID:</strong> ${order.id}</p>
+                <p><strong>Date:</strong> ${formattedDate}</p>
+              </div>
+            </div>
+            <div class="inv-meta-grid">
+              <div class="inv-meta-col">
+                <h4>Customer:</h4>
+                <strong>${order.customer.name}</strong><br>
+                ${order.customer.phone}<br>
+                ${order.customer.address}
+              </div>
+              <div class="inv-meta-col" style="text-align:right;">
+                <h4>Billing:</h4>
+                <strong>${order.payment.method.toUpperCase()} (${order.payment.status.toUpperCase()})</strong><br>
+                Service: ${order.orderType.toUpperCase()}
+              </div>
+            </div>
+            <table class="inv-table">
+              <thead>
+                <tr><th>#</th><th>Dish</th><th>Portion</th><th>Qty</th><th style="text-align:right;">Rate</th><th style="text-align:right;">Total</th></tr>
+              </thead>
+              <tbody>
+                ${order.items.map((i, idx) => `
+                  <tr>
+                    <td>${idx + 1}</td>
+                    <td><strong>${i.name}</strong></td>
+                    <td>${i.variant}</td>
+                    <td>${i.quantity}</td>
+                    <td style="text-align:right;">€${Number(i.price).toFixed(2)}</td>
+                    <td style="text-align:right;">€${Number(i.itemTotal).toFixed(2)}</td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+            <div class="inv-totals-wrap">
+              <div class="inv-total-row"><span>Subtotal:</span><span>€${Number(order.pricing.subtotal).toFixed(2)}</span></div>
+              ${order.pricing.discount > 0 ? `<div class="inv-total-row"><span>Discount:</span><span>-€${Number(order.pricing.discount).toFixed(2)}</span></div>` : ''}
+              <div class="inv-total-row"><span>Packing:</span><span>€${Number(order.pricing.packagingCharge).toFixed(2)}</span></div>
+              <div class="inv-total-row"><span>Delivery:</span><span>€${Number(order.pricing.deliveryFee).toFixed(2)}</span></div>
+              <div class="inv-total-row"><span>GST (5%):</span><span>€${Number(order.pricing.gst).toFixed(2)}</span></div>
+              <div class="inv-total-row grand"><span>Grand Total:</span><span>€${Number(order.pricing.grandTotal).toFixed(2)}</span></div>
+            </div>
+          </div>
+        `;
+      } else {
+        printContainer.innerHTML = `
+          <div class="thermal-receipt-layout">
+            <div class="th-center">
+              <div class="th-title">SEVEN STARS INDIAN TAKEAWAY</div>
+              <div class="th-sub">POS KITCHEN ORDER TICKET (KOT)</div>
+            </div>
+            <div class="th-divider"></div>
+            <div class="th-meta-row"><span>KOT / ORDER:</span><strong>#${order.id}</strong></div>
+            <div class="th-meta-row"><span>TIME:</span><span>${formattedDate}</span></div>
+            <div class="th-meta-row"><span>TYPE:</span><strong>${order.orderType.toUpperCase()}</strong></div>
+            <div class="th-meta-row"><span>GUEST:</span><span>${order.customer.name}</span></div>
+            <div class="th-divider"></div>
+            <div class="th-items-head"><span>ITEM & PORTION</span><span style="text-align:right;">QTY</span></div>
+            ${order.items.map(i => `
+              <div class="th-item-row" style="font-size:12px; font-weight:700;">
+                <div class="th-item-name">${i.name} [${i.variant}]</div>
+                <div class="th-item-calc">${i.quantity}</div>
+              </div>
+            `).join("")}
+            ${order.customer.notes ? `
+              <div class="th-divider"></div>
+              <div style="font-size:10px; font-weight:700;">CHEF INSTRUCTIONS:</div>
+              <div style="font-size:10px;">"${order.customer.notes}"</div>
+            ` : ''}
+            <div class="th-divider"></div>
+            <div class="th-grand-total"><span>TOTAL VALUE:</span><span>€${Number(order.pricing.grandTotal).toFixed(2)}</span></div>
+            <div class="th-meta-row"><span>PAYMENT:</span><strong>${order.payment.method.toUpperCase()} (${order.payment.status.toUpperCase()})</strong></div>
+          </div>
+        `;
+      }
+
+      window.print();
+    }
+  </script>
+</body>
+</html>
+

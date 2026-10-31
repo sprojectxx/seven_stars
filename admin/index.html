@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff & Admin Login | Seven Star Restaurant</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="admin-login-body">
+
+  <div class="admin-login-card">
+    <div class="admin-login-brand">
+      <div class="logo-symbol">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      </div>
+      <h1 style="font-family: var(--font-serif); font-size: 1.625rem; color: var(--color-dark); margin-bottom: 4px;">Seven Star Restaurant</h1>
+      <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--color-warm-brown); font-weight: 700;">
+        Management & Staff Portal
+      </span>
+    </div>
+
+    <!-- Login Form -->
+    <form id="admin-login-form" onsubmit="handleLoginSubmit(event)">
+      <div class="form-group">
+        <label for="admin-email">Demo Account Email</label>
+        <input type="email" id="admin-email" placeholder="admin@sevenstar.com" required>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 22px;">
+        <label for="admin-password">Password</label>
+        <input type="password" id="admin-password" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-login-submit">
+        Sign In to Portal &rarr;
+      </button>
+    </form>
+
+    <!-- Demo Credentials Helper Box -->
+    <div class="demo-credentials-helper-box">
+      <div class="demo-cred-title">
+        <svg viewBox="0 0 24 24" style="width:16px; height:16px;"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        Quick Demo Credentials (1-Click Fill)
+      </div>
+      <p style="color: var(--color-text-muted); font-size: 0.75rem; margin-bottom: 10px;">
+        Click below to auto-fill credentials for this prototype demonstration:
+      </p>
+
+      <button type="button" class="demo-fill-btn" onclick="quickFill('admin@sevenstar.com', 'admin123')">
+        <strong>👑 Admin:</strong> admin@sevenstar.com (Pass: admin123)
+      </button>
+
+      <button type="button" class="demo-fill-btn" onclick="quickFill('staff@sevenstar.com', 'staff123')">
+        <strong>🧑‍🍳 Staff:</strong> staff@sevenstar.com (Pass: staff123)
+      </button>
+    </div>
+
+    <div style="text-align: center; margin-top: 24px;">
+      <a href="../index.html" style="font-size: 0.8125rem; color: var(--color-muted-blue); font-weight: 600;">
+        &larr; Return to Customer Website
+      </a>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/main.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // If already logged in, redirect straight to dashboard
+      if (AuthService.isAuthenticated()) {
+        window.location.href = "dashboard.html";
+      }
+    });
+
+    function quickFill(email, password) {
+      document.getElementById("admin-email").value = email;
+      document.getElementById("admin-password").value = password;
+      // Auto-submit for smooth demo
+      handleLoginSubmit(new Event("submit"));
+    }
+
+    function handleLoginSubmit(e) {
+      if (e) e.preventDefault();
+      const email = document.getElementById("admin-email").value.trim();
+      const password = document.getElementById("admin-password").value.trim();
+
+      const res = AuthService.login(email, password);
+      if (res.success) {
+        SevenStar.showToast(`Welcome, <strong>${res.user.name}</strong> (${res.user.role.toUpperCase()})!`, "success");
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 300);
+      } else {
+        SevenStar.showToast(res.message, "error");
+      }
+    }
+  </script>
+</body>
+</html>
+
