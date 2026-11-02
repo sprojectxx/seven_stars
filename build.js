@@ -25,7 +25,8 @@ const assets = [
   'track-order.html',
   'admin',
   'css',
-  'js'
+  'js',
+  'public'
 ];
 
 for (const item of assets) {
