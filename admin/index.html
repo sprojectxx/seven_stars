@@ -22,31 +22,44 @@
       </span>
     </div>
 
+    <!-- Alert Message Banner -->
+    <div id="login-alert-box" style="display:none; padding:12px 14px; border-radius:10px; font-size:0.875rem; margin-bottom:18px; line-height:1.4;"></div>
+
     <!-- Login Form -->
-    <form id="admin-login-form" onsubmit="handleLoginSubmit(event)">
+    <form id="admin-login-form">
       <div class="form-group">
-        <label for="admin-email">Demo Account Email</label>
-        <input type="email" id="admin-email" placeholder="admin@sevenstar.com" required>
+        <label for="admin-email">Username or Email</label>
+        <input type="text" id="admin-email" placeholder="admin or admin@sevenstar.com" value="admin@sevenstar.com" required autocomplete="username">
       </div>
 
       <div class="form-group" style="margin-bottom: 22px;">
         <label for="admin-password">Password</label>
-        <input type="password" id="admin-password" placeholder="••••••••" required>
+        <input type="password" id="admin-password" placeholder="admin123" value="admin123" required autocomplete="current-password">
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-login-submit">
+      <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-login-submit" style="font-weight:700;">
         Sign In to Portal &rarr;
       </button>
+
+      <!-- 1-Click Instant Bypass Login Buttons -->
+      <div style="margin-top: 14px; border-top: 1px dashed var(--color-border); padding-top: 14px;">
+        <button type="button" class="btn btn-block" style="background: #16A34A; color: #FFFFFF; font-weight: 700; padding: 12px; border-radius: 8px; border:none; cursor:pointer;" onclick="instantAdminLogin()">
+          ⚡ 1-Click Instant Admin Access
+        </button>
+        <button type="button" class="btn btn-block" style="background: #374151; color: #FFFFFF; font-weight: 600; padding: 10px; border-radius: 8px; margin-top: 8px; border:none; cursor:pointer; font-size: 0.84375rem;" onclick="instantStaffLogin()">
+          🧑‍🍳 1-Click Instant Staff Access
+        </button>
+      </div>
     </form>
 
     <!-- Demo Credentials Helper Box -->
-    <div class="demo-credentials-helper-box">
+    <div class="demo-credentials-helper-box" style="margin-top: 20px;">
       <div class="demo-cred-title">
         <svg viewBox="0 0 24 24" style="width:16px; height:16px;"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-        Quick Demo Credentials (1-Click Fill)
+        Demo Credentials (Any will work)
       </div>
       <p style="color: var(--color-text-muted); font-size: 0.75rem; margin-bottom: 10px;">
-        Click below to auto-fill credentials for this prototype demonstration:
+        You can also enter <strong>admin</strong> with password <strong>admin123</strong> or <strong>admin</strong>.
       </p>
 
       <button type="button" class="demo-fill-btn" onclick="quickFill('admin@sevenstar.com', 'admin123')">
@@ -58,10 +71,13 @@
       </button>
     </div>
 
-    <div style="text-align: center; margin-top: 24px;">
+    <div style="text-align: center; margin-top: 20px; display:flex; justify-content:space-between; align-items:center;">
       <a href="../index.html" style="font-size: 0.8125rem; color: var(--color-muted-blue); font-weight: 600;">
         &larr; Return to Customer Website
       </a>
+      <button type="button" onclick="clearStaleSession()" style="background:none; border:none; color:var(--color-text-muted); font-size:0.75rem; cursor:pointer; text-decoration:underline;">
+        Clear Saved Session
+      </button>
     </div>
   </div>
 
@@ -72,35 +88,83 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // If already logged in, redirect straight to dashboard
-      if (AuthService.isAuthenticated()) {
-        window.location.href = "dashboard.html";
+      // Check query param e.g. ?logout=1
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("logout") === "1") {
+        StorageService.remove(STORAGE_KEYS.ACTIVE_USER);
+      } else if (AuthService.isAuthenticated()) {
+        // If already authenticated with valid user, proceed
+        const user = AuthService.getCurrentUser();
+        if (user && user.role) {
+          window.location.href = "dashboard.html";
+        }
+      }
+
+      // Attach form submit handler
+      const form = document.getElementById("admin-login-form");
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          handleLoginSubmit();
+        });
       }
     });
+
+    function showAlert(msg, isSuccess = true) {
+      const box = document.getElementById("login-alert-box");
+      if (!box) return;
+      box.style.display = "block";
+      box.style.background = isSuccess ? "#F0FDF4" : "#FEF2F2";
+      box.style.color = isSuccess ? "#166534" : "#991B1B";
+      box.style.border = `1px solid ${isSuccess ? '#BBF7D0' : '#FECACA'}`;
+      box.innerHTML = msg;
+    }
 
     function quickFill(email, password) {
       document.getElementById("admin-email").value = email;
       document.getElementById("admin-password").value = password;
-      // Auto-submit for smooth demo
-      handleLoginSubmit(new Event("submit"));
+      handleLoginSubmit();
     }
 
-    function handleLoginSubmit(e) {
-      if (e) e.preventDefault();
-      const email = document.getElementById("admin-email").value.trim();
-      const password = document.getElementById("admin-password").value.trim();
+    function instantAdminLogin() {
+      const user = AuthService.quickLoginAdmin();
+      showAlert(`✓ Access Granted! Logging in as <strong>${user.name}</strong>...`, true);
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 250);
+    }
+
+    function instantStaffLogin() {
+      const user = AuthService.quickLoginStaff();
+      showAlert(`✓ Access Granted! Logging in as <strong>${user.name}</strong>...`, true);
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 250);
+    }
+
+    function clearStaleSession() {
+      StorageService.remove(STORAGE_KEYS.ACTIVE_USER);
+      showAlert("Saved session cleared. You can now log in fresh.", true);
+    }
+
+    function handleLoginSubmit() {
+      const email = (document.getElementById("admin-email")?.value || "").trim();
+      const password = (document.getElementById("admin-password")?.value || "").trim();
 
       const res = AuthService.login(email, password);
       if (res.success) {
-        SevenStar.showToast(`Welcome, <strong>${res.user.name}</strong> (${res.user.role.toUpperCase()})!`, "success");
+        showAlert(`✓ Welcome back, <strong>${res.user.name}</strong> (${res.user.role.toUpperCase()})! Redirecting...`, true);
+        SevenStar.showToast(`Welcome, <strong>${res.user.name}</strong>!`, "success");
         setTimeout(() => {
           window.location.href = "dashboard.html";
         }, 300);
       } else {
+        showAlert(`❌ ${res.message}`, false);
         SevenStar.showToast(res.message, "error");
       }
     }
   </script>
+
 </body>
 </html>
 

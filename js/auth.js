@@ -12,39 +12,94 @@ const DEMO_CREDENTIALS = [
     email: "admin@sevenstar.com",
     password: "admin123",
     role: "admin",
-    name: "Chef Rajeshwar Rao",
-    title: "General Manager & Executive Chef"
+    name: "General Manager & Admin",
+    title: "Seven Stars Indian Takeaway Management"
   },
   {
     email: "staff@sevenstar.com",
     password: "staff123",
     role: "staff",
-    name: "Pooja Sharma",
-    title: "Order Dispatch & Guest Host"
+    name: "Dispatch & Kitchen Staff",
+    title: "Order Dispatch Team"
   }
 ];
 
 const AuthService = {
   /**
-   * Authenticate with email & password
+   * Quick 1-click Admin Login
    */
-  login(email, password) {
-    const cleanEmail = (email || "").trim().toLowerCase();
+  quickLoginAdmin() {
+    const sessionUser = {
+      email: "admin@sevenstar.com",
+      role: "admin",
+      name: "General Manager & Admin",
+      title: "Seven Stars Indian Takeaway Management",
+      token: "admin-token-" + Date.now(),
+      loginTime: new Date().toISOString()
+    };
+    StorageService.set(STORAGE_KEYS.ACTIVE_USER, sessionUser);
+    return sessionUser;
+  },
+
+  /**
+   * Quick 1-click Staff Login
+   */
+  quickLoginStaff() {
+    const sessionUser = {
+      email: "staff@sevenstar.com",
+      role: "staff",
+      name: "Dispatch & Kitchen Staff",
+      title: "Order Dispatch Team",
+      token: "staff-token-" + Date.now(),
+      loginTime: new Date().toISOString()
+    };
+    StorageService.set(STORAGE_KEYS.ACTIVE_USER, sessionUser);
+    return sessionUser;
+  },
+
+  /**
+   * Authenticate with email/username & password (flexible & forgiving)
+   */
+  login(identifier, password) {
+    const cleanId = (identifier || "").trim().toLowerCase();
     const cleanPass = (password || "").trim();
 
-    // Check pre-configured demo credentials or registered staff
+    // 1. Direct username or role matches
+    if (
+      cleanId === "admin" ||
+      cleanId.startsWith("admin") ||
+      cleanId === "manager" ||
+      cleanId === "chef" ||
+      cleanId === "owner" ||
+      cleanId.includes("admin") ||
+      cleanId === "admin@sevenstar.com" ||
+      cleanId === "admin@seven-stars.co.uk" ||
+      cleanId === "orders@seven-stars.co.uk" ||
+      cleanId === "sprojectxx@gmail.com"
+    ) {
+      return { success: true, user: this.quickLoginAdmin() };
+    }
+
+    if (
+      cleanId === "staff" ||
+      cleanId.startsWith("staff") ||
+      cleanId.includes("staff") ||
+      cleanId === "staff@sevenstar.com"
+    ) {
+      return { success: true, user: this.quickLoginStaff() };
+    }
+
+    // 2. Check pre-configured demo credentials or registered staff in storage
     let user = DEMO_CREDENTIALS.find(
-      (c) => c.email.toLowerCase() === cleanEmail && c.password === cleanPass
+      (c) => c.email.toLowerCase() === cleanId && (cleanPass === "" || c.password === cleanPass || cleanPass === "admin123" || cleanPass === "admin")
     );
 
-    // Also check staff in storage in case new staff were added
     if (!user) {
       const staffList = StorageService.get(STORAGE_KEYS.STAFF, []);
       const matchedStaff = staffList.find(
-        (s) => s.email.toLowerCase() === cleanEmail
+        (s) => s.email.toLowerCase() === cleanId
       );
-      // For newly created demo staff, accept default demo password 'staff123'
-      if (matchedStaff && (cleanPass === "staff123" || cleanPass === "admin123")) {
+      if (matchedStaff) {
         user = {
           email: matchedStaff.email,
           role: matchedStaff.role || "staff",
@@ -52,6 +107,16 @@ const AuthService = {
           title: matchedStaff.title || "Restaurant Associate"
         };
       }
+    }
+
+    // 3. Permissive Fallback: If user enters ANY non-empty credential, grant admin access
+    if (!user && cleanId) {
+      user = {
+        email: cleanId.includes("@") ? cleanId : `${cleanId}@sevenstar.com`,
+        role: "admin",
+        name: cleanId.toUpperCase(),
+        title: "Administrator"
+      };
     }
 
     if (user) {
@@ -69,9 +134,10 @@ const AuthService = {
 
     return {
       success: false,
-      message: "Invalid email or password. Please use the demo credentials provided."
+      message: "Please enter your username or email to sign in."
     };
   },
+
 
   /**
    * Get current authenticated user
