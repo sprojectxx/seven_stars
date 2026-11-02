@@ -108,7 +108,7 @@ const SevenStar = {
     const floatingBar = document.getElementById("takeaway-floating-bar");
     if (floatingBar) {
       if (count > 0) {
-        const totals = CartService.getCartTotals("pickup");
+        const totals = CartService.getCartTotals("delivery");
         const countEl = document.getElementById("floating-bar-count");
         const totalEl = document.getElementById("floating-bar-total");
         if (countEl) countEl.textContent = `${count} ${count === 1 ? 'Item' : 'Items'}`;

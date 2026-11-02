@@ -86,17 +86,11 @@
   <!-- MAIN BOOKING PORTAL CONTENT (No Hero Section - Direct Booking Entry) -->
   <main class="container" style="padding-top: 10px;">
 
-    <!-- COMPACT PORTAL ORDER STRIP (No Hero, Pure Booking Focus) -->
+    <!-- COMPACT PORTAL ORDER STRIP (Home Delivery Only) -->
     <div class="portal-compact-strip">
-      <div class="portal-mode-toggle">
-        <button class="portal-mode-btn active" id="mode-delivery-btn" onclick="setOrderMode('delivery')">
-          <span>🚴</span>
-          <span><strong>Delivery</strong> &bull; 20–30m</span>
-        </button>
-        <button class="portal-mode-btn" id="mode-pickup-btn" onclick="setOrderMode('pickup')">
-          <span>🛍️</span>
-          <span><strong>Takeaway Pickup</strong> &bull; 15m</span>
-        </button>
+      <div class="portal-delivery-badge">
+        <span class="delivery-pulse-dot"></span>
+        <span><strong>Home Delivery Service Only</strong> &bull; 20–30 mins direct to your door</span>
       </div>
       <div class="portal-perks-row">
         <span class="portal-perk-badge">✓ Free Local Delivery over €10</span>
@@ -260,7 +254,7 @@
           Review Cart
         </a>
         <a href="checkout.html" class="btn btn-primary btn-sm">
-          Proceed to Checkout &rarr;
+          Proceed to Delivery Checkout &rarr;
         </a>
       </div>
     </div>
@@ -277,11 +271,11 @@
             </div>
             <div class="logo-text-wrap">
               <span class="logo-title" style="color: #fff; font-weight: 800;">Seven Stars</span>
-              <span class="logo-sub" style="color: var(--color-light-blue); font-weight: 600;">Indian Takeaway</span>
+              <span class="logo-sub" style="color: var(--color-light-blue); font-weight: 600;">Indian Delivery Service</span>
             </div>
           </div>
           <p style="font-size: 0.875rem; line-height: 1.6; color: rgba(255,255,255,0.75);">
-            Authentic Indian takeaway in Leyland. Royal dum biryanis, traditional curries, kebabs, and fresh clay oven tandoori breads packed hot for pickup & delivery.
+            Authentic Indian cuisine in Leyland. Royal dum biryanis, traditional curries, kebabs, and fresh clay oven tandoori breads delivered piping hot to your doorstep.
           </p>
           <div style="font-size: 0.8125rem; color: var(--color-light-blue); margin-top: 10px;">
             360 Leyland Lane, Leyland, PR25 1TB • Tel: 01772 457 008 / 457 838
@@ -293,30 +287,30 @@
           <ul class="footer-links">
             <li><a href="index.html">Browse Menu & Order</a></li>
             <li><a href="cart.html">View Cart</a></li>
-            <li><a href="checkout.html">Checkout</a></li>
-            <li><a href="contact.html">Pickup Counter Details</a></li>
+            <li><a href="checkout.html">Delivery Checkout</a></li>
+            <li><a href="contact.html">Delivery Areas & Contact</a></li>
           </ul>
         </div>
 
         <div>
-          <h4 class="footer-heading">Opening Times</h4>
+          <h4 class="footer-heading">Delivery Service</h4>
           <div class="footer-hours-row">
-            <span>Monday – Sunday</span>
+            <span>Every Day</span>
             <span>5:00 PM – 11:00 PM</span>
           </div>
           <div class="footer-hours-row">
             <span>Free Delivery</span>
-            <span>Orders over €10</span>
+            <span>Orders over €10 (within 3 miles)</span>
           </div>
           <div style="margin-top: 14px; font-size: 0.8125rem; color: rgba(255,255,255,0.65);">
-            Curbside vehicle handover available.
+            Dispatched hot & fresh in insulated thermal boxes directly to your home.
           </div>
         </div>
       </div>
 
       <div class="footer-bottom">
         <p>&copy; 2026 Seven Stars Indian Takeaway. All rights reserved.</p>
-        <p>Online Booking & Takeaway Ordering Portal</p>
+        <p>Online Home Delivery Food Portal</p>
       </div>
     </div>
   </footer>
@@ -337,7 +331,7 @@
     let isUnder5Only = false;
     let searchQuery = "";
     let sortOrder = "default";
-    let currentOrderMode = "delivery";
+    const currentOrderMode = "delivery"; // Delivery Only
 
     document.addEventListener("DOMContentLoaded", () => {
       renderSwiggyMenu();
@@ -350,15 +344,6 @@
       });
     });
 
-    // Set Order Mode: Delivery or Pickup
-    function setOrderMode(mode) {
-      currentOrderMode = mode;
-      const dBtn = document.getElementById("mode-delivery-btn");
-      const pBtn = document.getElementById("mode-pickup-btn");
-      if (dBtn) dBtn.classList.toggle("active", mode === "delivery");
-      if (pBtn) pBtn.classList.toggle("active", mode === "pickup");
-      SevenStar.showToast(mode === "delivery" ? "🚴 Delivery order mode selected (20–30 mins)" : "🛍️ Takeaway Pickup selected (Ready in 15 mins at counter)", "info");
-    }
 
     // Category Filter Handler
     function filterByCategory(catId, btnEl) {

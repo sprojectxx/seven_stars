@@ -38,14 +38,15 @@
       </a>
 
       <nav class="nav-menu">
-        <a href="index.html#takeaway-menu" class="nav-link">Menu & Order</a>
-        <a href="contact.html" class="nav-link">Pickup Location</a>
+        <a href="index.html" class="nav-link">Online Menu</a>
+        <a href="contact.html" class="nav-link">Delivery & Contact</a>
         <a href="admin/index.html" class="nav-link" style="color:var(--color-muted-blue);">Admin Portal</a>
       </nav>
 
       <div class="header-actions">
-        <a href="index.html#takeaway-menu" class="btn btn-outline btn-sm">Order More Take Away</a>
+        <a href="index.html" class="btn btn-outline btn-sm">Order More Dishes</a>
       </div>
+
     </div>
   </header>
 
@@ -134,16 +135,16 @@
             <!-- Receipt Box -->
             <div class="receipt-box" id="onscreen-receipt">
               <div class="receipt-restaurant-head">
-                <h2>Seven Star Take Away</h2>
-                <p>Express Kitchen & Take Away Counter • Jubilee Hills, Hyderabad</p>
-                <p>Phone: +91 98765 43210 • GSTIN: 36AAACS1429B1Z8</p>
+                <h2>Seven Stars Indian Takeaway</h2>
+                <p>Commercial Express Kitchen • 360 Leyland Lane, Leyland, PR25 1TB</p>
+                <p>Phone: 01772 457 008 / 457 838 • Home Delivery Service</p>
               </div>
 
               <div class="receipt-meta-grid">
                 <div>
                   <strong>Order ID:</strong> ${order.id}<br>
                   <strong>Date & Time:</strong> ${formattedDate}<br>
-                  <strong>Service Type:</strong> ${order.orderType === 'delivery' ? 'Home Delivery' : 'Restaurant Pickup'}
+                  <strong>Service:</strong> <span style="color:var(--color-olive-green); font-weight:700;">Home Delivery Only</span>
                 </div>
                 <div>
                   <strong>Customer:</strong> ${order.customer.name}<br>
@@ -247,16 +248,16 @@
           <div class="a4-invoice-layout">
             <div class="inv-header">
               <div class="inv-brand">
-                <h1>Seven Star Take Away</h1>
-                <p>Plot No. 42, Royal Heritage Enclave, Road No. 36, Jubilee Hills</p>
-                <p>Hyderabad, Telangana - 500033 | Phone: +91 98765 43210</p>
-                <p>GSTIN: 36AAACS1429B1Z8 | FSSAI Lic No: 13622011000214</p>
+                <h1>Seven Stars Indian Takeaway</h1>
+                <p>360 Leyland Lane, Leyland, Preston, Lancashire - PR25 1TB</p>
+                <p>United Kingdom | Phone: 01772 457 008 / 457 838</p>
+                <p>Exclusive Home Delivery Service</p>
               </div>
               <div class="inv-details">
-                <h2>Tax Invoice</h2>
+                <h2>Delivery Invoice</h2>
                 <p><strong>Invoice No:</strong> ${order.id}</p>
                 <p><strong>Date:</strong> ${formattedDate}</p>
-                <p><strong>Service:</strong> ${order.orderType === 'delivery' ? 'Home Delivery' : 'Restaurant Pickup'}</p>
+                <p><strong>Service:</strong> Home Delivery Only</p>
               </div>
             </div>
 

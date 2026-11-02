@@ -1,6 +1,6 @@
 {
   "name": "Seven Stars Indian Takeaway",
-  "description": "Authentic Indian takeaway in Leyland offering set meals, biryanis, kebabs, curries, and tandoori breads packed fresh for pickup and delivery.",
+  "description": "Authentic Indian cuisine in Leyland offering set meals, biryanis, kebabs, curries, and tandoori breads delivered hot and fresh to your doorstep.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
